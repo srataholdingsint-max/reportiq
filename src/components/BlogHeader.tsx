@@ -170,30 +170,18 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
             })}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-2 shrink-0 pl-4 border-l border-stone-200">
-            <button
-              onClick={() => onNavigate('sprint')}
-              className={`px-3 py-1.5 rounded-md font-bold whitespace-nowrap text-xs transition-colors flex items-center gap-1.5 ${
-                activeView === 'sprint'
-                  ? 'bg-amber-500 text-stone-900'
-                  : 'text-amber-800 bg-amber-50 hover:bg-amber-100'
-              }`}
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-600" />
-              <span>60-Day Sprint ({publishedCount}/30)</span>
-            </button>
-            <button
-              onClick={onOpenAdSenseModal}
-              className="px-2.5 py-1.5 rounded-md text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-100 flex items-center gap-1.5 transition-colors"
-            >
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              <span>AdSense Audit</span>
-            </button>
+          <div className="hidden lg:flex items-center gap-2 shrink-0 pl-4 border-l border-stone-200 text-xs">
             <button
               onClick={() => onNavigate('legal')}
-              className="text-stone-500 hover:text-stone-900 font-medium text-xs px-2 py-1.5 hover:bg-stone-100 rounded-md transition-colors"
+              className="text-stone-600 hover:text-stone-900 font-semibold px-2.5 py-1.5 hover:bg-stone-100 rounded-md transition-colors"
             >
-              About & Trust
+              About the Master Technicians
+            </button>
+            <button
+              onClick={() => onNavigate('lookup')}
+              className="text-blue-700 bg-blue-50 hover:bg-blue-100 font-bold px-3 py-1.5 rounded-md transition-colors"
+            >
+              Diagnostic Tool
             </button>
           </div>
         </div>
@@ -238,30 +226,10 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
             </button>
             <button
               onClick={() => {
-                onNavigate('sprint');
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-between px-3 py-2 bg-amber-400 text-stone-900 rounded-lg text-xs font-bold"
-            >
-              <span>🚀 60-Day Blog Challenge Desk ({publishedCount}/30)</span>
-              <span>Open →</span>
-            </button>
-            <button
-              onClick={() => {
-                onOpenAdSenseModal();
-                setMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center justify-between px-3 py-2 bg-emerald-50 text-emerald-900 border border-emerald-200 rounded-lg text-xs font-bold"
-            >
-              <span>📊 AdSense & Affiliate Audit</span>
-              <span>Checklist →</span>
-            </button>
-            <button
-              onClick={() => {
                 onNavigate('legal');
                 setMobileMenuOpen(false);
               }}
-              className="w-full text-left px-3 py-2 bg-white text-stone-700 rounded-lg text-xs font-medium"
+              className="w-full text-left px-3 py-2 bg-white text-stone-700 hover:bg-stone-100 border border-stone-200 rounded-lg text-xs font-semibold"
             >
               About the Editors & Editorial Policy
             </button>
