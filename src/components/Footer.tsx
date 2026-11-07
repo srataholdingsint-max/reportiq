@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrench, ShieldCheck, Heart, ExternalLink, Mail, Phone } from 'lucide-react';
+import { Wrench } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (view: 'lookup' | 'guides' | 'keywords' | 'studio' | 'legal') => void;
@@ -73,7 +73,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenLegalTab }) =>
           {/* Quick Tools */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">
-              Monetized Features
+              Diagnostic & Tools
             </h4>
             <ul className="space-y-2">
               <li>
@@ -81,32 +81,32 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenLegalTab }) =>
                   onClick={() => onNavigate('lookup')} 
                   className="hover:text-blue-400 transition-colors text-left font-medium text-white"
                 >
-                  🛠️ Appliance Error Code Lookup
+                  🛠️ Error Code & Multimeter Lookup
                 </button>
               </li>
               <li>
                 <button 
-                  onClick={() => onNavigate('keywords')} 
+                  onClick={() => onNavigate('guides')} 
                   className="hover:text-blue-400 transition-colors text-left"
                 >
-                  📊 People Also Ask (PAA) Method
+                  📖 Step-by-Step DIY Repair Library
                 </button>
               </li>
               <li>
                 <button 
-                  onClick={() => onNavigate('studio')} 
+                  onClick={() => onOpenLegalTab('contact')} 
                   className="hover:text-blue-400 transition-colors text-left"
                 >
-                  ✨ AI Studio 3-Step Content Machine
+                  ✉️ Master Technician Q&A Helpdesk
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* AdSense Compliance & Legal Links */}
+          {/* Editorial Compliance & Legal Links */}
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">
-              AdSense & Trust Pages
+              Editorial & Trust Standards
             </h4>
             <ul className="space-y-2">
               <li>
@@ -153,7 +153,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenLegalTab }) =>
           </div>
         </div>
 
-        {/* Legal Disclaimers (Required for AdSense & Amazon Associates) */}
+        {/* Legal Disclaimers */}
         <div className="pt-8 border-t border-slate-800 text-[11px] text-slate-400 space-y-2 leading-relaxed">
           <p>
             <strong>Amazon Associates Disclaimer:</strong> ReportIQ (reportiq.xyz) is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. Certain content that appears on this site comes from Amazon Services LLC.
@@ -163,7 +163,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenLegalTab }) =>
           </p>
           <div className="pt-2 flex flex-wrap items-center justify-between gap-4 text-slate-400">
             <span>© {new Date().getFullYear()} ReportIQ (reportiq.xyz). All rights reserved.</span>
-            <span>Optimized for Google AdSense High RPM & EEAT Standards</span>
+            <span>Peer-Reviewed Home Maintenance Diagnostics</span>
           </div>
         </div>
       </div>
