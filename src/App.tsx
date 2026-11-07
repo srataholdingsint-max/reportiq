@@ -1,9 +1,4 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BlogHeader } from './components/BlogHeader';
 import { BlogHome } from './components/BlogHome';
 import { ArticleView } from './components/ArticleView';
@@ -23,16 +18,44 @@ export default function App() {
   const [activeView, setActiveView] = useState<'blog' | 'lookup' | 'sprint' | 'legal'>('blog');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
+  // Secret Admin Access (Enabled strictly via ?admin=true in URL or Ctrl+Shift+A keyboard shortcut)
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === 'true' || params.get('editor') === 'true' || window.location.hash === '#admin') {
+        localStorage.setItem('reportiq_admin', 'true');
+        return true;
+      }
+      return localStorage.getItem('reportiq_admin') === 'true';
+    }
+    return false;
+  });
+
+  // Secret keyboard shortcut to toggle admin mode: Ctrl+Shift+A
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        setIsAdmin(prev => {
+          const next = !prev;
+          if (next) localStorage.setItem('reportiq_admin', 'true');
+          else localStorage.removeItem('reportiq_admin');
+          return next;
+        });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   // Modals
   const [isAdSenseModalOpen, setIsAdSenseModalOpen] = useState<boolean>(false);
   const [isLeadModalOpen, setIsLeadModalOpen] = useState<boolean>(false);
   const [leadServiceName, setLeadServiceName] = useState<string>('Appliance Repair');
   const [legalInitialTab, setLegalInitialTab] = useState<'about' | 'privacy' | 'affiliate' | 'contact' | 'terms'>('about');
 
-  // Handle publishing a new article from the 60-Day sprint editor directly into the live blog!
   const handlePublishNewArticle = (newGuide: ArticleGuide) => {
     setGuides(prev => [newGuide, ...prev]);
-    // Switch to the newly published guide to preview it
     setSelectedGuide(newGuide);
     setActiveView('blog');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -58,7 +81,6 @@ export default function App() {
     }
   };
 
-  // Filtered guides by search
   const displayedGuides = guides.filter(guide => {
     if (!searchQuery.trim()) return true;
     const query = searchQuery.toLowerCase();
@@ -72,6 +94,49 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fafaf9] text-stone-900 font-sans selection:bg-amber-400 selection:text-stone-900">
+      {/* PRIVATE OWNER ADMIN BAR (Visible ONLY when ?admin=true is in URL or Ctrl+Shift+A pressed) */}
+      {isAdmin && (
+        <div className="bg-amber-500 text-stone-900 px-4 py-2 text-xs font-bold flex flex-wrap items-center justify-between gap-3 shadow-md sticky top-0 z-50">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
+            <span>🔐 Private Owner Desk (Hidden from public & Google)</span>
+            <span className="bg-stone-900 text-white px-2 py-0.5 rounded text-[10px]">
+              Secret Mode
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                setActiveView('sprint');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all shadow-xs ${
+                activeView === 'sprint' ? 'bg-stone-900 text-white' : 'bg-white text-stone-900 hover:bg-stone-100'
+              }`}
+            >
+              ⚡ 60-Day Sprint & 1-Click Publisher
+            </button>
+            <button
+              onClick={() => setIsAdSenseModalOpen(true)}
+              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-stone-900 hover:bg-stone-100 transition-all shadow-xs"
+            >
+              ✓ AdSense Checklist
+            </button>
+            <button
+              onClick={() => {
+                localStorage.removeItem('reportiq_admin');
+                setIsAdmin(false);
+                if (activeView === 'sprint') setActiveView('blog');
+              }}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white transition-colors"
+              title="Hide admin bar"
+            >
+              Exit Admin ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Editorial Blog Header */}
       <BlogHeader
         activeCategory={activeCategory}
@@ -95,7 +160,6 @@ export default function App() {
 
       {/* Main Blog Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* VIEW 1: BLOG HOME OR ARTICLE VIEW */}
         {activeView === 'blog' && (
           <div>
             {selectedGuide ? (
@@ -134,7 +198,6 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 2: INTERACTIVE APPLIANCE ERROR CODE LOOKUP TOOL */}
         {activeView === 'lookup' && (
           <div className="space-y-6">
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-xs text-center max-w-3xl mx-auto space-y-2">
@@ -156,7 +219,6 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 3: 60-DAY SPRINT & DAILY ARTICLE GENERATOR */}
         {activeView === 'sprint' && (
           <SixtyDaySprint
             publishedCount={guides.length}
@@ -165,7 +227,6 @@ export default function App() {
           />
         )}
 
-        {/* VIEW 4: LEGAL & TRUST PAGES (AdSense Approval Shield) */}
         {activeView === 'legal' && (
           <LegalPages initialTab={legalInitialTab} />
         )}
@@ -176,21 +237,18 @@ export default function App() {
         onNavigate={(view) => {
           if (view === 'lookup') setActiveView('lookup');
           else if (view === 'guides') { setActiveView('blog'); setSelectedGuide(null); }
-          else if (view === 'keywords' || view === 'studio') setActiveView('sprint');
           else if (view === 'legal') setActiveView('legal');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onOpenLegalTab={handleOpenLegalTab}
       />
 
-      {/* AdSense Checklist Modal */}
       <AdSenseChecklistModal
         isOpen={isAdSenseModalOpen}
         onClose={() => setIsAdSenseModalOpen(false)}
         onOpenLegalTab={handleOpenLegalTab}
       />
 
-      {/* Contractor Quote Lead Modal */}
       <ContractorLeadModal
         isOpen={isLeadModalOpen}
         onClose={() => setIsLeadModalOpen(false)}
