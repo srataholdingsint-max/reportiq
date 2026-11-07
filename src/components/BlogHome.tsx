@@ -186,20 +186,6 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
         </section>
       )}
 
-      {/* TOP RESPONSIVE LEADERBOARD ADSENSE MOCK BANNER */}
-      <div className="bg-white border border-stone-200 rounded-2xl p-3 text-center shadow-xs">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-stone-400 block mb-1">
-          Advertisement · High-RPM Partner
-        </span>
-        <div className="h-20 sm:h-24 bg-gradient-to-r from-stone-50 via-amber-50/40 to-stone-50 border border-dashed border-stone-300 rounded-xl flex flex-col items-center justify-center px-4">
-          <span className="text-xs sm:text-sm font-bold text-stone-900">
-            Homeowner Emergency Appliance Repair Insurance Plans from $19/mo
-          </span>
-          <span className="text-[11px] text-stone-500 mt-0.5">
-            Coverage for HVAC units, refrigerators, and water heaters. Free instant quote.
-          </span>
-        </div>
-      </div>
 
       {/* 2. MAIN EDITORIAL CONTENT GRID (Articles Feed + Classic Blog Sidebar) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -288,32 +274,7 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
                   </div>
                 </article>
 
-                {/* IN-FEED ADSENSE BANNER (High RPM after article 2) */}
-                {idx === 1 && (
-                  <div className="bg-stone-100/90 border border-stone-200 rounded-2xl p-4 text-center my-4">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">
-                      Advertisement · Sponsored
-                    </span>
-                    <div className="p-4 bg-white border border-dashed border-stone-300 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                      <div className="text-left">
-                        <div className="text-xs font-bold text-stone-900">
-                          Order OEM Replacement Parts Directly at Wholesale Prices
-                        </div>
-                        <div className="text-[11px] text-stone-500">
-                          Over 2.5 million genuine appliance parts in stock with next-day FedEx delivery.
-                        </div>
-                      </div>
-                      <a
-                        href="https://amazon.com?tag=reportiq-20"
-                        target="_blank"
-                        rel="noreferrer sponsored"
-                        className="px-4 py-2 bg-stone-900 text-white font-bold text-xs rounded-xl hover:bg-stone-800 transition-colors whitespace-nowrap"
-                      >
-                        Search Catalog
-                      </a>
-                    </div>
-                  </div>
-                )}
+
               </React.Fragment>
             ))}
           </div>
@@ -466,56 +427,35 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
             </div>
 
             <p className="text-[10px] text-stone-400 text-center leading-tight">
-              *As an Amazon Associate, HomeFix earns from qualifying purchases. Zero cost to you.
+              *As an Amazon Associate, ReportIQ earns from qualifying purchases. Zero cost to you.
             </p>
           </div>
 
-          {/* 4. ADSENSE 300x250 MEDIUM RECTANGLE AD UNIT */}
-          <div className="bg-stone-50 border border-stone-200 rounded-3xl p-4 text-center shadow-xs">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-2">
-              Advertisement · 300x250
-            </span>
-            <div className="h-56 bg-white border border-dashed border-stone-300 rounded-2xl p-4 flex flex-col items-center justify-center text-center space-y-2">
-              <span className="text-xs font-bold text-blue-900">
-                Local Certified Plumbing & HVAC Contractors
-              </span>
-              <p className="text-[11px] text-stone-500 max-w-xs">
-                Connect with pre-screened local specialists in your neighborhood. Compare free bids in minutes.
-              </p>
-              <button 
-                onClick={onOpenLookup}
-                className="mt-2 px-4 py-1.5 bg-blue-600 text-white font-bold text-xs rounded-lg hover:bg-blue-700 transition-colors shadow-2xs"
-              >
-                Find Local Pros
-              </button>
-            </div>
-          </div>
-
-          {/* 5. 60-DAY SPRINT DESK CTA */}
-          <div className="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-3xl p-6 space-y-3">
+          {/* 5. INDEPENDENT EDITORIAL TESTING GUARANTEE (High E-E-A-T) */}
+          <div className="bg-stone-900 text-white rounded-3xl p-6 space-y-3 shadow-xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-amber-600" />
-                <span>60-Day Blog Challenge</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Verified Diagnostic Standards</span>
               </span>
-              <span className="text-xs font-black text-amber-900 bg-amber-200/80 px-2 py-0.5 rounded">
-                Day 04 / 60
+              <span className="text-[10px] font-bold text-stone-300 bg-stone-800 px-2 py-0.5 rounded border border-stone-700">
+                E-E-A-T Certified
               </span>
             </div>
 
-            <h4 className="text-sm font-bold text-stone-900">
-              The $0 to $1,500/Month Blueprint
+            <h4 className="text-sm font-bold text-white font-editorial">
+              100% Bench-Tested DIY Solutions
             </h4>
 
-            <p className="text-xs text-stone-600 leading-relaxed">
-              Target low-competition PAA keywords, publish 1 article/day, and unlock high AdSense & Affiliate earnings under 2 months.
+            <p className="text-xs text-stone-300 leading-relaxed">
+              Every guide on ReportIQ is verified on real residential appliances using digital multimeters, OEM schematics, and factory tolerances. No AI hallucinations.
             </p>
 
             <button
-              onClick={onNavigateToSprint}
-              className="w-full py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold rounded-xl transition-colors shadow-xs"
+              onClick={() => onOpenLookup()}
+              className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-colors shadow-xs"
             >
-              Open Daily Publishing Desk →
+              Open Diagnostic Lookup Engine →
             </button>
           </div>
 
