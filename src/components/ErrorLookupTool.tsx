@@ -49,14 +49,17 @@ export const ErrorLookupTool: React.FC<ErrorLookupToolProps> = ({
   // Filtered results from database
   const filteredCodes = useMemo(() => {
     return ERROR_CODES_DATABASE.filter(item => {
-      const matchBrand = selectedBrand === 'All' || item.brand.toLowerCase().includes(selectedBrand.toLowerCase());
+      const matchBrand = selectedBrand === 'All' || item.brand.toLowerCase() === selectedBrand.toLowerCase();
       const matchCategory = selectedCategory === 'All' || item.appliance === selectedCategory;
       const query = searchQuery.trim().toLowerCase();
       const matchQuery = !query || 
         item.code.toLowerCase().includes(query) ||
         item.symptom.toLowerCase().includes(query) ||
         item.brand.toLowerCase().includes(query) ||
-        item.meaning.toLowerCase().includes(query);
+        item.appliance.toLowerCase().includes(query) ||
+        item.meaning.toLowerCase().includes(query) ||
+        (item.affectedModels && item.affectedModels.some(m => m.toLowerCase().includes(query))) ||
+        (item.parts && item.parts.some(p => p.name.toLowerCase().includes(query) || p.partNumber.toLowerCase().includes(query)));
       return matchBrand && matchCategory && matchQuery;
     });
   }, [selectedBrand, selectedCategory, searchQuery]);
@@ -72,10 +75,12 @@ export const ErrorLookupTool: React.FC<ErrorLookupToolProps> = ({
 
   const activeItem: ErrorCodeItem = useMemo(() => {
     if (dynamicDiagnosis) return dynamicDiagnosis;
-    return filteredCodes.find(item => item.id === activeCodeId) || 
-           ERROR_CODES_DATABASE.find(item => item.id === activeCodeId) || 
-           filteredCodes[0] || 
-           ERROR_CODES_DATABASE[0];
+    if (filteredCodes.length > 0) {
+      const found = filteredCodes.find(item => item.id === activeCodeId);
+      if (found) return found;
+      return filteredCodes[0];
+    }
+    return ERROR_CODES_DATABASE[0];
   }, [dynamicDiagnosis, filteredCodes, activeCodeId]);
 
   const toggleStep = (stepKey: string) => {
@@ -336,6 +341,25 @@ export const ErrorLookupTool: React.FC<ErrorLookupToolProps> = ({
             <p className="text-slate-700 text-sm mt-1 leading-relaxed">
               <strong className="text-slate-900">Official Meaning:</strong> {activeItem.meaning}
             </p>
+
+            {/* Confirmed Compatible Models */}
+            {activeItem.affectedModels && activeItem.affectedModels.length > 0 && (
+              <div className="mt-3 p-3 bg-white rounded-xl border border-slate-200">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 block mb-1.5">
+                  Confirmed Compatible Models & Series:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {activeItem.affectedModels.map((model, mIdx) => (
+                    <span 
+                      key={mIdx}
+                      className="px-2.5 py-0.5 text-xs font-semibold bg-slate-100 text-slate-800 rounded-md border border-slate-200"
+                    >
+                      {model}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* DIY vs Pro Cost Comparison Banner */}
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-white rounded-xl border border-slate-200">
