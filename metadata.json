@@ -1,0 +1,6 @@
+{
+  "name": "HomeFix Pro - DIY Home Repair Guides & Appliance Error Codes",
+  "description": "High-RPM DIY home maintenance guides, interactive appliance error code lookup, and tool recommendations for homeowners.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

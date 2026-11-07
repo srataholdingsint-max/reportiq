@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function() {
+        // Prevent "TypeError: Cannot set property fetch of #<Window> which has only a getter"
+        // caused by Chrome extension content scripts attempting assignment on window.fetch
+        try {
+          var _origFetch = window.fetch;
+          var _fetch = _origFetch;
+          Object.defineProperty(window, 'fetch', {
+            configurable: true,
+            enumerable: true,
+            get: function() {
+              return _fetch;
+            },
+            set: function(fn) {
+              _fetch = fn;
+            }
+          });
+        } catch (e) {
+          // ignore
+        }
+
+        // Suppress extension-injected errors from breaking the web application
+        window.addEventListener('error', function(event) {
+          if (
+            (event.filename && event.filename.indexOf('chrome-extension:') !== -1) ||
+            (event.message && event.message.indexOf('fetch of #<Window>') !== -1)
+          ) {
+            event.stopImmediatePropagation && event.stopImmediatePropagation();
+            event.preventDefault && event.preventDefault();
+            return true;
+          }
+        }, true);
+      })();
+    </script>
+    <title>ReportIQ – DIY Home Repair Reports & Appliance Error Codes</title>
+    <meta name="description" content="ReportIQ (reportiq.xyz) provides free DIY home maintenance reports, instant appliance error code lookup, and tool recommendations." />
+    <meta property="og:title" content="ReportIQ – DIY Home Repair Reports & Appliance Error Codes" />
+    <meta property="og:description" content="ReportIQ (reportiq.xyz) provides free DIY home maintenance reports, instant appliance error code lookup, and tool recommendations." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ReportIQ" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ReportIQ – DIY Home Repair Reports & Appliance Error Codes" />
+    <meta name="twitter:description" content="Troubleshoot appliance error codes, fix plumbing, HVAC, and household repairs with step-by-step DIY guides on ReportIQ." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HomeFix Pro",
+      "applicationCategory": "HomeImprovementApplication",
+      "operatingSystem": "All",
+      "description": "Comprehensive DIY home maintenance guides, instant appliance error code diagnostics, and DIY repair tutorials.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
