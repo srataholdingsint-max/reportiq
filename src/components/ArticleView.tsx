@@ -137,20 +137,6 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
         </div>
       </div>
 
-      {/* TOP COMPLIANT GOOGLE ADSENSE LEADERBOARD */}
-      <div className="bg-stone-100/90 border border-stone-200 rounded-2xl p-3 text-center my-3 shadow-2xs">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">
-          Advertisement
-        </span>
-        <div className="h-20 sm:h-24 bg-gradient-to-r from-stone-50 via-blue-50/50 to-stone-50 border border-dashed border-stone-300 rounded-xl flex flex-col items-center justify-center px-4">
-          <span className="text-xs sm:text-sm font-bold text-stone-900">
-            Compare Top-Rated Local Home Warranty & Appliance Protection Plans
-          </span>
-          <span className="text-[11px] text-stone-500 mt-0.5">
-            Save up to 45% on unexpected refrigerator & HVAC repair bills. Free online quotes.
-          </span>
-        </div>
-      </div>
 
       {/* Main Editorial Article Body */}
       <div className="bg-white rounded-3xl p-6 sm:p-10 border border-stone-200 shadow-xs space-y-6">
@@ -418,32 +404,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
                     </div>
                   </div>
 
-                  {/* MID-ARTICLE ADSENSE DISPLAY BANNER AFTER STEP 2 */}
-                  {idx === 1 && (
-                    <div className="bg-stone-50 border border-stone-200 rounded-2xl p-4 text-center my-6">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">
-                        Advertisement
-                      </span>
-                      <div className="p-4 bg-white border border-dashed border-stone-300 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="text-left">
-                          <div className="text-xs font-bold text-stone-900">
-                            Find OEM Parts & Diagnostic Multimeters On Sale
-                          </div>
-                          <div className="text-[11px] text-stone-500">
-                            Shop 1,000+ appliance fix tools with fast 2-day delivery.
-                          </div>
-                        </div>
-                        <a
-                          href="https://amazon.com?tag=reportiq-20"
-                          target="_blank"
-                          rel="noreferrer sponsored"
-                          className="px-4 py-2 bg-stone-900 text-white font-bold text-xs rounded-xl hover:bg-stone-800 transition-colors whitespace-nowrap"
-                        >
-                          View Deals
-                        </a>
-                      </div>
-                    </div>
-                  )}
+
                 </div>
               );
             })}
