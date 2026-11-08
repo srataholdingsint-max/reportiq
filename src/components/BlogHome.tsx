@@ -16,7 +16,6 @@ import {
   Bookmark
 } from 'lucide-react';
 import { ArticleGuide } from '../types';
-import { ERROR_CODES_DATABASE } from '../data/errorCodes';
 
 interface BlogHomeProps {
   guides: ArticleGuide[];
