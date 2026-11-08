@@ -5,14 +5,15 @@ import {
   Menu, 
   X, 
   CheckCircle2, 
-  Zap
+  Zap,
+  Calculator
 } from 'lucide-react';
 
 interface BlogHeaderProps {
   activeCategory: string;
   onSelectCategory: (category: string) => void;
-  activeView: 'blog' | 'lookup' | 'sprint' | 'legal';
-  onNavigate: (view: 'blog' | 'lookup' | 'sprint' | 'legal') => void;
+  activeView: 'blog' | 'lookup' | 'calculator' | 'sprint' | 'legal';
+  onNavigate: (view: 'blog' | 'lookup' | 'calculator' | 'sprint' | 'legal') => void;
   onOpenAdSenseModal: () => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
@@ -113,6 +114,23 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
               <span>Error Code Lookup Tool</span>
             </a>
 
+            {/* Repair vs Replace Calculator CTA Button */}
+            <a
+              href="/calculator"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('calculator');
+              }}
+              className={`hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs no-underline ${
+                activeView === 'calculator'
+                  ? 'bg-amber-400 text-stone-950 font-black'
+                  : 'bg-stone-100 text-stone-800 hover:bg-stone-200'
+              }`}
+            >
+              <Calculator className="w-3.5 h-3.5 text-blue-600" />
+              <span>Repair vs Replace</span>
+            </a>
+
             {/* Mobile Menu Button */}
             <div className="flex items-center gap-1 md:hidden">
               <button
@@ -199,6 +217,16 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
               className="text-blue-700 bg-blue-50 hover:bg-blue-100 font-bold px-3 py-1.5 rounded-md transition-colors no-underline block"
             >
               Diagnostic Tool
+            </a>
+            <a
+              href="/calculator"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('calculator');
+              }}
+              className="text-amber-800 bg-amber-50 hover:bg-amber-100 font-bold px-3 py-1.5 rounded-md transition-colors no-underline block"
+            >
+              50% Rule Calculator
             </a>
           </div>
         </div>
