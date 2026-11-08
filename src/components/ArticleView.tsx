@@ -19,12 +19,15 @@ import {
   MapPin,
   MessageSquare,
   Send,
-  Check
+  Check,
+  Copy,
+  X
 } from 'lucide-react';
 import { ArticleGuide, BlogComment } from '../types';
 
 interface ArticleViewProps {
   guide: ArticleGuide;
+  allGuides?: ArticleGuide[];
   onBack: () => void;
   onSelectRelated: (guide: ArticleGuide) => void;
   onOpenLeadModal?: (service: string) => void;
@@ -32,6 +35,7 @@ interface ArticleViewProps {
 
 export const ArticleView: React.FC<ArticleViewProps> = ({ 
   guide, 
+  allGuides = [],
   onBack, 
   onSelectRelated,
   onOpenLeadModal
@@ -39,6 +43,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
   const [checkedSteps, setCheckedSteps] = useState<Record<number, boolean>>({});
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [helpfulCount, setHelpfulCount] = useState<number>(142);
   const [hasVoted, setHasVoted] = useState<boolean>(false);
 
@@ -70,12 +75,55 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
     setCheckedSteps(prev => ({ ...prev, [stepNumber]: !prev[stepNumber] }));
   };
 
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
+  const copyToClipboard = (text: string) => {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedLink(true);
+        setTimeout(() => setCopiedLink(false), 2500);
+      }).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
     }
+  };
+
+  const fallbackCopy = (text: string) => {
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2500);
+    } catch (err) {
+      console.error('Copy fallback failed', err);
+    }
+  };
+
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    const shareTitle = `${guide.title} | ReportIQ DIY`;
+
+    // Try native share API on mobile devices
+    if (typeof navigator !== 'undefined' && navigator.share && /mobile|android|iphone|ipad/i.test(navigator.userAgent)) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          text: guide.quickSummary,
+          url: shareUrl
+        });
+        return;
+      } catch {
+        // user dismissed or canceled native share, open modal as reliable fallback
+      }
+    }
+    
+    // Default: Open the full interactive Share Modal
+    setIsShareModalOpen(true);
   };
 
   const handleVote = () => {
@@ -432,13 +480,13 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
           <div className="space-y-1 text-center sm:text-left">
             <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 uppercase tracking-wider">
               <MapPin className="w-3.5 h-3.5" />
-              <span>Need a Licensed Tech?</span>
+              <span>Instant Automated Pricing & Local Techs</span>
             </div>
             <h3 className="text-lg sm:text-xl font-bold font-editorial text-white">
               Prefer a Vetted Local Specialist to Handle This?
             </h3>
             <p className="text-xs text-stone-300 max-w-md">
-              Get up to 3 free, no-obligation quotes from licensed contractors in your zip code.
+              Calculate instant market-rate labor costs in your ZIP code and match with licensed local contractors. Zero wait time.
             </p>
           </div>
 
@@ -446,7 +494,7 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             onClick={() => onOpenLeadModal && onOpenLeadModal(`${guide.category} Repair`)}
             className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-stone-900 font-black text-xs sm:text-sm rounded-xl shadow-md transition-colors shrink-0 uppercase tracking-wider"
           >
-            Find Local Pros
+            Get Instant Quote →
           </button>
         </div>
 
@@ -580,7 +628,151 @@ export const ArticleView: React.FC<ArticleViewProps> = ({
             ))}
           </div>
         </div>
+
+        {/* RELATED BENCH-TESTED GUIDES */}
+        {allGuides.filter(g => g.id !== guide.id && (guide.relatedGuideIds?.includes(g.id) || g.category === guide.category)).length > 0 && (
+          <div className="border-t border-stone-200 pt-8 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg sm:text-xl font-bold font-editorial text-stone-900 flex items-center gap-2">
+                <Wrench className="w-5 h-5 text-blue-600" />
+                <span>Related Troubleshooting Guides</span>
+              </h3>
+              <span className="text-xs text-stone-500">More {guide.category} Fixes</span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+              {allGuides
+                .filter(g => g.id !== guide.id && (guide.relatedGuideIds?.includes(g.id) || g.category === guide.category))
+                .slice(0, 3)
+                .map(rel => (
+                  <a
+                    key={rel.id}
+                    href={`/guide/${rel.slug}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectRelated(rel);
+                    }}
+                    className="p-4 bg-stone-50 hover:bg-stone-100/80 rounded-2xl border border-stone-200 space-y-2 block no-underline text-inherit group transition-all"
+                  >
+                    <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 block">
+                      {rel.category}
+                    </span>
+                    <h4 className="text-xs font-bold text-stone-900 group-hover:text-blue-700 transition-colors line-clamp-2 leading-snug">
+                      {rel.title}
+                    </h4>
+                    <div className="flex items-center justify-between text-[11px] text-stone-500 pt-1 border-t border-stone-200">
+                      <span>{rel.readTime}</span>
+                      <span className="text-emerald-700 font-bold">DIY: {rel.estDiyCost}</span>
+                    </div>
+                  </a>
+                ))}
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* INTERACTIVE SHARE MODAL */}
+      {isShareModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-stone-200 relative animate-in fade-in zoom-in-95 duration-150 space-y-5">
+            <button
+              onClick={() => setIsShareModalOpen(false)}
+              className="absolute top-5 right-5 p-2 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-500 hover:text-stone-800 transition-colors"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 uppercase tracking-wider mb-1">
+                <Share2 className="w-3.5 h-3.5" />
+                <span>Share Guide</span>
+              </div>
+              <h3 className="text-lg font-black text-stone-900">
+                Share This Bench-Tested DIY Guide
+              </h3>
+              <p className="text-xs text-stone-500 mt-1 line-clamp-2">
+                {guide.title}
+              </p>
+            </div>
+
+            {/* Direct Social Share Buttons */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <a
+                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${guide.title} — Fix it yourself and save $200+: ${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-colors text-center group"
+              >
+                <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-2xs group-hover:scale-105 transition-transform">
+                  WA
+                </div>
+                <span className="text-[11px] font-bold text-emerald-900">WhatsApp</span>
+              </a>
+
+              <a
+                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(guide.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-colors text-center group"
+              >
+                <div className="w-8 h-8 rounded-full bg-stone-900 text-white flex items-center justify-center text-xs font-bold shadow-2xs group-hover:scale-105 transition-transform">
+                  𝕏
+                </div>
+                <span className="text-[11px] font-bold text-stone-900">X / Twitter</span>
+              </a>
+
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-colors text-center group"
+              >
+                <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shadow-2xs group-hover:scale-105 transition-transform">
+                  f
+                </div>
+                <span className="text-[11px] font-bold text-blue-900">Facebook</span>
+              </a>
+
+              <a
+                href={`mailto:?subject=${encodeURIComponent(`DIY Fix: ${guide.title}`)}&body=${encodeURIComponent(`${guide.quickSummary}\n\nCheck out the full step-by-step repair guide here:\n${typeof window !== 'undefined' ? window.location.href : ''}`)}`}
+                className="p-3 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-colors text-center group"
+              >
+                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-2xs group-hover:scale-105 transition-transform">
+                  ✉
+                </div>
+                <span className="text-[11px] font-bold text-indigo-900">Email</span>
+              </a>
+            </div>
+
+            {/* Direct Copy Link Box */}
+            <div className="space-y-1.5 pt-1">
+              <label className="text-[11px] font-bold text-stone-600 uppercase tracking-wider block">
+                Direct Article Link:
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={typeof window !== 'undefined' ? window.location.href : ''}
+                  className="flex-1 px-3 py-2 bg-stone-50 border border-stone-200 rounded-xl text-xs font-mono text-stone-700 truncate select-all focus:outline-none"
+                />
+                <button
+                  onClick={() => copyToClipboard(typeof window !== 'undefined' ? window.location.href : '')}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs shrink-0 ${
+                    copiedLink
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-stone-900 hover:bg-stone-800 text-white'
+                  }`}
+                >
+                  {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedLink ? 'Copied!' : 'Copy Link'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </article>
   );
 };
