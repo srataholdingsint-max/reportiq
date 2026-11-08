@@ -26,6 +26,7 @@ import { BlogHome } from './components/BlogHome';
 import { ArticleView } from './components/ArticleView';
 import { SixtyDaySprint } from './components/SixtyDaySprint';
 import { ErrorLookupTool } from './components/ErrorLookupTool';
+import { RepairVsReplaceCalculator } from './components/RepairVsReplaceCalculator';
 import { LegalPages } from './components/LegalPages';
 import { Footer } from './components/Footer';
 import { AdSenseChecklistModal } from './components/AdSenseChecklistModal';
@@ -687,7 +688,7 @@ export default function App() {
   });
   const [selectedGuide, setSelectedGuide] = useState<ArticleGuide | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [activeView, setActiveView] = useState<'blog' | 'lookup' | 'sprint' | 'legal'>('blog');
+  const [activeView, setActiveView] = useState<'blog' | 'lookup' | 'calculator' | 'sprint' | 'legal'>('blog');
   const [searchQuery, setSearchQuery] = useState<string>('');
   
   // Secret Admin Access (Enabled strictly via ?admin=true in URL or Ctrl+Shift+A keyboard shortcut)
@@ -741,6 +742,11 @@ export default function App() {
         setActiveView('lookup');
         setSelectedGuide(null);
         document.title = 'Appliance Error Code Lookup Tool | ReportIQ';
+        return;
+      } else if (path === '/calculator' || path === '/repair-vs-replace') {
+        setActiveView('calculator');
+        setSelectedGuide(null);
+        document.title = 'Appliance Repair vs Replace Calculator (50% Rule) | ReportIQ';
         return;
       } else if (path === '/about' || path === '/privacy' || path === '/affiliate' || path === '/terms' || path === '/contact') {
         const tab = path.replace('/', '') as 'about' | 'privacy' | 'affiliate' | 'terms' | 'contact';
@@ -813,7 +819,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleNavigateView = (view: 'blog' | 'lookup' | 'sprint' | 'legal') => {
+  const handleNavigateView = (view: 'blog' | 'lookup' | 'calculator' | 'sprint' | 'legal') => {
     setActiveView(view);
     if (view === 'blog') {
       setSelectedGuide(null);
@@ -823,6 +829,10 @@ export default function App() {
       setSelectedGuide(null);
       window.history.pushState({ type: 'lookup' }, '', '/lookup');
       document.title = 'Appliance Error Code Lookup Tool | ReportIQ';
+    } else if (view === 'calculator') {
+      setSelectedGuide(null);
+      window.history.pushState({ type: 'calculator' }, '', '/calculator');
+      document.title = 'Appliance Repair vs Replace Calculator (50% Rule) | ReportIQ';
     } else if (view === 'sprint') {
       window.history.pushState({ type: 'sprint' }, '', '/?admin=true');
     }
@@ -985,7 +995,12 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 3: 60-DAY SPRINT & DAILY ARTICLE GENERATOR */}
+        {/* VIEW 3: INTERACTIVE REPAIR VS REPLACE CALCULATOR (50% RULE) */}
+        {activeView === 'calculator' && (
+          <RepairVsReplaceCalculator onOpenLeadModal={handleOpenLeadModal} />
+        )}
+
+        {/* VIEW 4: 60-DAY SPRINT & DAILY ARTICLE GENERATOR */}
         {activeView === 'sprint' && (
           <SixtyDaySprint
             publishedCount={guides.length}
@@ -994,7 +1009,7 @@ export default function App() {
           />
         )}
 
-        {/* VIEW 4: LEGAL & TRUST PAGES (AdSense Approval Shield) */}
+        {/* VIEW 5: LEGAL & TRUST PAGES (AdSense Approval Shield) */}
         {activeView === 'legal' && (
           <LegalPages initialTab={legalInitialTab} />
         )}
@@ -1034,4 +1049,3 @@ export default function App() {
     </div>
   );
 }
- 
