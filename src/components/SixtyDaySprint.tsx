@@ -38,25 +38,51 @@ export const SixtyDaySprint: React.FC<SixtyDaySprintProps> = ({
   onOpenAdSenseModal
 }) => {
   const [activeTab, setActiveTab] = useState<'writer' | 'tomorrow' | 'affiliateLinks' | 'rankingSEO' | 'roadmap' | 'keywords' | 'routine'>('writer');
-  const [selectedKeyword, setSelectedKeyword] = useState<string>('LG washer dC error code fix');
+  const [keywordFilter, setKeywordFilter] = useState<'upcoming' | 'published'>('upcoming');
+  const [selectedKeyword, setSelectedKeyword] = useState<string>('GE washer not spinning lid switch test');
   const [customKeyword, setCustomKeyword] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<ApplianceCategory>('Washing Machine');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [publishedSuccess, setPublishedSuccess] = useState<boolean>(false);
+  const [lastPublishedGuide, setLastPublishedGuide] = useState<ArticleGuide | null>(null);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   // Form draft state for publishing
-  const [draftTitle, setDraftTitle] = useState<string>('How to Fix LG Washer dC Error Code: Door Latch Switch Replacement');
-  const [draftIntro, setDraftIntro] = useState<string>('I ran into this exact issue when our front-load washer refused to spin during a heavy load of towels. The display beeped with dC. Before ordering a new washer, I tested the door latch switch and fixed it for $18 in 20 minutes.');
-  const [draftSummary, setDraftSummary] = useState<string>('The dC error on LG washers indicates the door lock latch switch is not engaging. Reseating the terminal harness or replacing the $18 interlock solenoid clears it 95% of the time.');
-  const [draftDiyCost, setDraftDiyCost] = useState<string>('$18.50');
-  const [draftProCost, setDraftProCost] = useState<string>('$230.00');
-  const [draftEstTime, setDraftEstTime] = useState<string>('20 minutes');
-  const [draftPartName, setDraftPartName] = useState<string>('OEM LG Washer Door Lock Switch Assembly EBF61315801');
-  const [draftPartPrice, setDraftPartPrice] = useState<string>('$18.99');
+  const [draftTitle, setDraftTitle] = useState<string>('GE Washer Not Spinning: How to Test & Replace the Lid Lock Switch in 15 Minutes');
+  const [draftIntro, setDraftIntro] = useState<string>('I ran into this exact callout last Tuesday on a GE top-load washer. The machine would fill with hot water, agitate normally, but when it came time to drain and spin, the motor stayed silent. A local technician quoted $240, but a $21 lid lock switch and 15 minutes of work had it running perfectly.');
+  const [draftSummary, setDraftSummary] = useState<string>('On modern GE washers, high-speed spin will not engage if the magnetic lid lock switch does not complete its latch circuit. Replacing it requires only a 1/4" nut driver.');
+  const [draftDiyCost, setDraftDiyCost] = useState<string>('$21.50');
+  const [draftProCost, setDraftProCost] = useState<string>('$240.00');
+  const [draftEstTime, setDraftEstTime] = useState<string>('15 – 20 mins');
+  const [draftPartName, setDraftPartName] = useState<string>('OEM GE Washer Lid Lock Switch Assembly (WH12X10334)');
+  const [draftPartPrice, setDraftPartPrice] = useState<string>('$21.50');
   const [amazonTag, setAmazonTag] = useState<string>(() => {
     return localStorage.getItem('reportiq_amazon_tag') || 'reportiq-20';
   });
+
+  const handleSelectKeywordItem = (item: any) => {
+    setSelectedKeyword(item.keyword);
+    setCustomKeyword('');
+    
+    // Auto-detect category
+    const cat: ApplianceCategory = 
+      item.subNiche.includes('Washing') ? 'Washing Machine' :
+      item.subNiche.includes('Dryer') ? 'Dryer' :
+      item.subNiche.includes('Dishwasher') ? 'Dishwasher' :
+      item.subNiche.includes('Fridge') || item.subNiche.includes('Refrigerator') ? 'Refrigerator' :
+      item.subNiche.includes('HVAC') || item.subNiche.includes('Heating') ? 'HVAC & Heating' :
+      item.subNiche.includes('Disposal') ? 'Garbage Disposal' : 'Plumbing';
+    setSelectedCategory(cat);
+
+    setDraftTitle(item.suggestedTitle || `How to Fix ${item.keyword}: Step-by-Step DIY Solution`);
+    setDraftIntro(`I ran into this exact ${item.keyword} issue recently in my own home. After calling a local repair company that quoted over ${item.estProCost || '$240'}, I grabbed my screwdriver, tested the components, and had it fixed for ${item.estDiyCost || '$20'} in 20 minutes.`);
+    setDraftSummary(`A technician-benchmarked diagnostic guide for ${item.keyword}. Explains common component failure modes, multimeter test points, safety protocols, and direct OEM replacement parts.`);
+    setDraftDiyCost(item.estDiyCost || '$21.50');
+    setDraftProCost(item.estProCost || '$240.00');
+    setDraftEstTime('20 – 25 mins');
+    setDraftPartName(item.partName || `OEM Factory Replacement Part for ${item.keyword}`);
+    setDraftPartPrice(item.estDiyCost || '$21.99');
+  };
 
   const handleAmazonTagChange = (newTag: string) => {
     const clean = newTag.trim();
@@ -197,10 +223,8 @@ export const SixtyDaySprint: React.FC<SixtyDaySprintProps> = ({
     };
 
     onPublishNewArticle(newGuide);
+    setLastPublishedGuide(newGuide);
     setPublishedSuccess(true);
-    setTimeout(() => {
-      setPublishedSuccess(false);
-    }, 4000);
   };
 
   const targetArticles = 30;
@@ -350,59 +374,101 @@ export const SixtyDaySprint: React.FC<SixtyDaySprintProps> = ({
           {/* Left Column: Keyword Selector & Prompts */}
           <div className="lg:col-span-5 space-y-5">
             <div className="bg-white rounded-3xl p-6 border border-stone-200 shadow-xs space-y-4">
-              <h3 className="text-sm font-bold font-editorial text-stone-900 uppercase tracking-wider flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-600" />
-                Step 1: Pick Today's Target Keyword
-              </h3>
+              <div className="flex items-center justify-between border-b border-stone-100 pb-2.5">
+                <h3 className="text-sm font-bold font-editorial text-stone-900 uppercase tracking-wider flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-600" />
+                  <span>Step 1: Pick Target Topic</span>
+                </h3>
+              </div>
 
-              <div className="space-y-2">
-                {[
-                  { kw: 'LG washer dC error code fix', cpc: '$14.80', vol: '14,200/mo' },
-                  { kw: 'Samsung dryer not heating reset button', cpc: '$16.20', vol: '28,100/mo' },
-                  { kw: 'GE dishwasher orange light blinking', cpc: '$11.50', vol: '12,500/mo' },
-                  { kw: 'KitchenAid disposal humming hex key', cpc: '$9.40', vol: '18,900/mo' }
-                ].map((item, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      setSelectedKeyword(item.kw);
-                      setCustomKeyword('');
-                    }}
-                    className={`w-full text-left p-3 rounded-xl border text-xs transition-all flex items-center justify-between ${
-                      selectedKeyword === item.kw && !customKeyword
-                        ? 'bg-amber-50 border-amber-500 font-bold text-amber-950'
-                        : 'bg-stone-50 border-stone-200 text-stone-700 hover:bg-stone-100'
-                    }`}
-                  >
-                    <span>{item.kw}</span>
-                    <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">
-                      {item.cpc} CPC
-                    </span>
-                  </button>
-                ))}
+              {/* Filter Tabs between Upcoming (Unpublished) vs Already Published */}
+              <div className="flex gap-1.5 p-1 bg-stone-100 rounded-xl text-[11px] font-bold">
+                <button
+                  type="button"
+                  onClick={() => setKeywordFilter('upcoming')}
+                  className={`flex-1 py-1.5 px-2 rounded-lg transition-all text-center ${
+                    keywordFilter === 'upcoming'
+                      ? 'bg-white text-stone-900 shadow-xs'
+                      : 'text-stone-500 hover:text-stone-800'
+                  }`}
+                >
+                  🔥 Next Days to Publish ({KEYWORD_RESEARCH_DATABASE.filter(k => !k.isPublished).length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setKeywordFilter('published')}
+                  className={`flex-1 py-1.5 px-2 rounded-lg transition-all text-center ${
+                    keywordFilter === 'published'
+                      ? 'bg-white text-stone-900 shadow-xs'
+                      : 'text-stone-500 hover:text-stone-800'
+                  }`}
+                >
+                  ✅ Already Published ({KEYWORD_RESEARCH_DATABASE.filter(k => k.isPublished).length})
+                </button>
+              </div>
+
+              {/* Keyword List */}
+              <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+                {KEYWORD_RESEARCH_DATABASE
+                  .filter(item => keywordFilter === 'upcoming' ? !item.isPublished : item.isPublished)
+                  .map((item, idx) => {
+                    const isSelected = selectedKeyword === item.keyword;
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => handleSelectKeywordItem(item)}
+                        className={`w-full text-left p-3 rounded-2xl border text-xs transition-all space-y-1.5 ${
+                          isSelected
+                            ? 'bg-amber-50/90 border-amber-500 shadow-xs ring-1 ring-amber-400'
+                            : 'bg-stone-50 hover:bg-stone-100 border-stone-200'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-stone-200 text-stone-800">
+                            Day {item.dayNumber || idx + 1} • {item.subNiche}
+                          </span>
+                          <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                            {item.cpc} CPC
+                          </span>
+                        </div>
+                        <div className="font-bold text-stone-900 text-xs">
+                          {item.suggestedTitle || item.keyword}
+                        </div>
+                        <div className="flex items-center justify-between text-[11px] text-stone-500 pt-0.5">
+                          <span>Search: {item.searchVolume}</span>
+                          <span className="text-blue-700 font-semibold">
+                            {isSelected ? '✓ Loaded in Editor' : 'Click to Load →'}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
               </div>
 
               <div>
                 <label className="text-[11px] font-bold text-stone-500 uppercase tracking-wider block mb-1">
-                  Or Type Any Keyword:
+                  Or Type Custom Keyword / Appliance Issue:
                 </label>
-                <input
-                  type="text"
-                  value={customKeyword}
-                  onChange={(e) => setCustomKeyword(e.target.value)}
-                  placeholder="e.g. Whirlpool fridge clicking sound fix"
-                  className="w-full px-3 py-2 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
-                />
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={customKeyword}
+                    onChange={(e) => setCustomKeyword(e.target.value)}
+                    placeholder="e.g. Whirlpool fridge clicking sound fix"
+                    className="flex-1 px-3 py-2 text-xs bg-stone-50 border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleGenerateAI}
+                    disabled={isGenerating}
+                    className="px-3 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 shrink-0"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? 'animate-spin' : ''}`} />
+                    <span>Draft</span>
+                  </button>
+                </div>
               </div>
-
-              <button
-                onClick={handleGenerateAI}
-                disabled={isGenerating}
-                className="w-full py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-2 shadow-xs"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? 'animate-spin' : ''}`} />
-                <span>{isGenerating ? 'Generating Structured Article...' : 'Generate 3-Step SEO Post Draft'}</span>
-              </button>
             </div>
 
             {/* Prompt Vault Reference */}
@@ -441,6 +507,45 @@ export const SixtyDaySprint: React.FC<SixtyDaySprintProps> = ({
                 </span>
               )}
             </div>
+
+            {/* Permanent GitHub deployment helper box */}
+            {lastPublishedGuide && (
+              <div className="p-4 sm:p-5 bg-emerald-50 rounded-2xl border-2 border-emerald-300 space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-200/80 px-2 py-0.5 rounded">
+                      Live in Browser Feed & Storage
+                    </span>
+                    <h4 className="text-xs font-black text-emerald-950 mt-1">
+                      "{lastPublishedGuide.title}"
+                    </h4>
+                    <p className="text-[11px] text-emerald-800 mt-0.5">
+                      Article is published live! To deploy permanently across all devices on GitHub & Vercel:
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(JSON.stringify(lastPublishedGuide, null, 2), 'pub_snippet')}
+                    className="px-3 py-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 shrink-0 transition-colors shadow-2xs"
+                  >
+                    {copiedKey === 'pub_snippet' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedKey === 'pub_snippet' ? 'Copied Code!' : 'Copy Code for GitHub'}</span>
+                  </button>
+                </div>
+                <div className="text-[11px] text-stone-600 flex items-center gap-2 pt-1 border-t border-emerald-200">
+                  <span>👉 Open on GitHub:</span>
+                  <a
+                    href="https://github.com/srataholdingsint-max/reportiq/blob/main/src/data/guides.ts"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-700 font-bold underline flex items-center gap-1"
+                  >
+                    <span>src/data/guides.ts (Edit & Paste)</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            )}
 
             <form onSubmit={handlePublishToBlog} className="space-y-4">
               <div>
@@ -979,8 +1084,18 @@ export const SixtyDaySprint: React.FC<SixtyDaySprintProps> = ({
             {KEYWORD_RESEARCH_DATABASE.map((item, idx) => (
               <div key={idx} className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-bold text-stone-900 font-editorial">{item.keyword}</span>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {item.isPublished ? (
+                      <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300 flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <span>Live on Blog (Day {item.dayNumber || idx + 1})</span>
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-extrabold text-amber-900 bg-amber-200/80 px-2.5 py-0.5 rounded-full border border-amber-300">
+                        🔥 Ready to Publish (Day {item.dayNumber || idx + 1})
+                      </span>
+                    )}
+                    <span className="text-sm font-bold text-stone-900 font-editorial">{item.suggestedTitle || item.keyword}</span>
                     <span className="text-[10px] font-semibold text-stone-500 bg-stone-200 px-2 py-0.5 rounded">
                       {item.subNiche}
                     </span>
@@ -998,13 +1113,17 @@ export const SixtyDaySprint: React.FC<SixtyDaySprintProps> = ({
 
                   <button
                     onClick={() => {
-                      setSelectedKeyword(item.keyword);
+                      handleSelectKeywordItem(item);
                       setActiveTab('writer');
-                      handleGenerateAI();
+                      window.scrollTo({ top: 300, behavior: 'smooth' });
                     }}
-                    className="px-3 py-1.5 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs rounded-xl shadow-2xs transition-colors"
+                    className={`px-3 py-1.5 font-bold text-xs rounded-xl shadow-2xs transition-colors ${
+                      item.isPublished 
+                        ? 'bg-stone-200 hover:bg-stone-300 text-stone-800'
+                        : 'bg-stone-900 hover:bg-stone-800 text-white'
+                    }`}
                   >
-                    Draft Post →
+                    {item.isPublished ? 'Edit / View Post →' : 'Draft & Publish →'}
                   </button>
                 </div>
               </div>
