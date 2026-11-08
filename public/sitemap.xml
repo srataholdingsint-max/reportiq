@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Website & Diagnostic Tools (2 URLs) -->
+  <!-- Core Website & Diagnostic Tools -->
   <url>
     <loc>https://www.reportiq.xyz/</loc>
     <lastmod>2026-11-09</lastmod>
@@ -14,7 +14,7 @@
     <priority>0.9</priority>
   </url>
 
-  <!-- 10 In-Depth High-RPM DIY Repair Pillar Guides (10 URLs) -->
+  <!-- 10 In-Depth DIY Repair Pillar Guides -->
   <url>
     <loc>https://www.reportiq.xyz/guide/bosch-dishwasher-e15-error-code-fix</loc>
     <lastmod>2026-11-09</lastmod>
@@ -76,7 +76,7 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Legal, E-E-A-T & Google AdSense Trust Pages (5 URLs) -->
+  <!-- Legal & Trust Pages -->
   <url>
     <loc>https://www.reportiq.xyz/about</loc>
     <lastmod>2026-11-09</lastmod>
@@ -108,7 +108,7 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Category Hubs (6 URLs) -->
+  <!-- Category Hubs -->
   <url>
     <loc>https://www.reportiq.xyz/category/dishwashers</loc>
     <lastmod>2026-11-09</lastmod>
