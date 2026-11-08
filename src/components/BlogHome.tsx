@@ -66,9 +66,13 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
         <section className="bg-white rounded-3xl border border-stone-200/90 shadow-xs overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Main Lead Story (Left 7 Cols) */}
-            <div 
-              onClick={() => onSelectGuide(heroGuide)}
-              className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between cursor-pointer group hover:bg-stone-50/50 transition-colors border-b lg:border-b-0 lg:border-r border-stone-100"
+            <a 
+              href={`/guide/${heroGuide.slug}`}
+              onClick={(e) => {
+                e.preventDefault();
+                onSelectGuide(heroGuide);
+              }}
+              className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between cursor-pointer group hover:bg-stone-50/50 transition-colors border-b lg:border-b-0 lg:border-r border-stone-100 no-underline text-inherit block"
             >
               <div className="space-y-4">
                 <div className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-stone-100 shadow-xs">
@@ -123,7 +127,7 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
-            </div>
+            </a>
 
             {/* Trending Column (Right 5 Cols) */}
             <div className="lg:col-span-5 p-6 sm:p-8 bg-stone-50/60 flex flex-col justify-between space-y-4">
@@ -138,10 +142,14 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
 
                 <div className="space-y-4 divide-y divide-stone-200/80">
                   {trendingGuides.map((item, index) => (
-                    <article
+                    <a
                       key={item.id}
-                      onClick={() => onSelectGuide(item)}
-                      className={`pt-3.5 cursor-pointer group flex items-start gap-3 ${index === 0 ? 'pt-0' : ''}`}
+                      href={`/guide/${item.slug}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        onSelectGuide(item);
+                      }}
+                      className={`pt-3.5 cursor-pointer group flex items-start gap-3 no-underline text-inherit block ${index === 0 ? 'pt-0' : ''}`}
                     >
                       <span className="text-2xl font-black text-stone-300 font-editorial group-hover:text-stone-900 transition-colors w-6 shrink-0">
                         0{index + 1}
@@ -159,7 +167,7 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
                           <span className="text-emerald-700 font-semibold">DIY: {item.estDiyCost}</span>
                         </div>
                       </div>
-                    </article>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -215,9 +223,13 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
           <div className="space-y-6">
             {filteredGuides.map((guide, idx) => (
               <React.Fragment key={guide.id}>
-                <article
-                  onClick={() => onSelectGuide(guide)}
-                  className="bg-white rounded-3xl border border-stone-200/90 p-5 sm:p-7 shadow-xs hover:shadow-md hover:border-stone-400 transition-all cursor-pointer group"
+                <a
+                  href={`/guide/${guide.slug}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onSelectGuide(guide);
+                  }}
+                  className="bg-white rounded-3xl border border-stone-200/90 p-5 sm:p-7 shadow-xs hover:shadow-md hover:border-stone-400 transition-all cursor-pointer group block no-underline text-inherit"
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
                     {/* Thumbnail Image */}
@@ -272,7 +284,7 @@ export const BlogHome: React.FC<BlogHomeProps> = ({
                       </div>
                     </div>
                   </div>
-                </article>
+                </a>
 
 
               </React.Fragment>
