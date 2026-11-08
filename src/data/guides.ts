@@ -1014,5 +1014,316 @@ export const REPAIR_GUIDES: ArticleGuide[] = [
       }
     ],
     relatedGuideIds: ['guide-furnace-filter-hvac', 'guide-ge-washer-lid-lock']
+  },
+  {
+    id: 'guide-samsung-ice-maker',
+    slug: 'samsung-refrigerator-ice-maker-force-defrost-reset',
+    title: 'Samsung Refrigerator Ice Maker Not Making Ice: Force Defrost & Reset Fix (DA97-15217D)',
+    seoTitle: 'Samsung French Door Ice Maker Frozen Fix: Force Defrost & Reset | ReportIQ',
+    seoDescription: 'Samsung French door refrigerator ice maker frozen, frosted over, or clicking? Step-by-step force defrost sequence, test button reset, and Y-clip fix without a technician.',
+    category: 'Refrigerator',
+    subcategory: 'Refrigerator Ice & Cooling',
+    readTime: '8 min read',
+    publishDate: 'Published Today',
+    author: {
+      name: 'David Vance',
+      role: 'Master Appliance Technician & Field Inspector',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+      verified: true
+    },
+    difficulty: 'Beginner',
+    estTime: '20 mins',
+    estDiyCost: '$0.00 (Reset) / $58.00 (Part)',
+    estProCost: '$295.00',
+    heroImage: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&auto=format&fit=crop&q=80',
+    personalIntro: 'Samsung French door refrigerators are notorious across North America for the ice room frosting over into a solid block of white ice. Authorized repair companies frequently quote $295 to $450 to replace the whole assembly. But before you pay a dime, you can run Samsung\'s secret Force Defrost mode directly from the front display panel and press the diagnostic test chime to reset the motor.',
+    quickSummary: 'When a Samsung ice room freezes solid or stops dropping ice cubes, warm room air is usually leaking past the silicone auger gasket. Running the hidden Force Defrost (Fd) cycle melts the frost in 20 minutes, followed by a manual button reset.',
+    safetyAlert: 'CAUTION: Do not use a heat gun, ice pick, or hair dryer inside the ice room for more than 3 minutes. High heat will warp the thin plastic ice chamber walls.',
+    toolsNeeded: [
+      'Phillips screwdriver #2',
+      'Towel (to catch melting water)',
+      'Flathead screwdriver or putty knife',
+      'Hair dryer (used on low/medium heat only)'
+    ],
+    partsNeeded: [
+      {
+        name: 'OEM Samsung Ice Maker Assembly (Part #DA97-15217D / DA97-12314A)',
+        partNumber: 'DA97-15217D',
+        price: '$58.90',
+        rating: 4.7,
+        reviewsCount: 8900,
+        isPrime: true,
+        affiliateUrl: 'https://www.amazon.com/s?k=DA97-15217D+samsung+ice+maker+assembly&tag=reportiq-20',
+        badge: 'Amazon Choice',
+        category: 'part',
+        description: 'Complete factory replacement ice maker with twist tray, motor gear box, thermistor, and wiring harness.'
+      },
+      {
+        name: 'Samsung Ice Room Y-Clip & Drain Tube Upgrade Kit (DA82-02683A)',
+        partNumber: 'DA82-02683A',
+        price: '$18.50',
+        rating: 4.6,
+        reviewsCount: 3100,
+        isPrime: true,
+        affiliateUrl: 'https://www.amazon.com/s?k=DA82-02683A+samsung+y-clip+leak+fix&tag=reportiq-20',
+        badge: 'Permanent Fix',
+        category: 'part',
+        description: 'OEM service kit with extended defrost clip to permanently prevent the evaporator coil from freezing into an ice block.'
+      }
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        title: 'Activate Hidden "Force Defrost" (Fd) Mode',
+        instructions: [
+          'Locate the "Freezer" and "Lighting" (or "Energy Saver" and "Fridge") buttons on the front control panel.',
+          'Press and hold both buttons simultaneously for 8 seconds until the display beeps and flashes blank.',
+          'Press any button repeatedly until the digital readout displays "Fd" (Force Defrost).',
+          'The refrigerator will beep intermittently as the internal heating element melts the ice room frost. Let it run for 20 minutes, then power cycle the fridge.'
+        ],
+        proTip: 'Place a folded towel inside the ice bucket to absorb the runoff water.'
+      },
+      {
+        stepNumber: 2,
+        title: 'Remove the Ice Bucket & Inspect the Ice Box',
+        instructions: [
+          'Lift the front latch on the ice bucket and pull it straight out.',
+          'Look into the back of the ice compartment: if you see frost clinging to the aluminum evaporator coils, melt it gently with warm water or a hair dryer on low heat.'
+        ]
+      },
+      {
+        stepNumber: 3,
+        title: 'Press the Ice Maker Manual Reset Button',
+        instructions: [
+          'Locate the small rectangular clear or blue test button on the right side of the ice maker body.',
+          'Press and hold this button for 3 to 5 seconds until you hear a clear single chime / ding.',
+          'The motor will slowly cycle the ice tray 360 degrees. If the tray fails to rotate or chatters, the internal gear motor is stripped and the ice maker unit must be replaced.'
+        ]
+      },
+      {
+        stepNumber: 4,
+        title: 'Seal the Ice Room Seam with Food-Grade RTV Silicone',
+        instructions: [
+          'Inspect the seam where the ice room ceiling meets the side cabinet wall.',
+          'If air is leaking in, run a thin bead of food-grade silicone along the outer joint to prevent warm moist kitchen air from entering the chamber.'
+        ]
+      }
+    ],
+    commonMistakes: [
+      'Chipping ice with a metal knife: Puncturing the aluminum evaporator tube releases refrigerant freon, permanently destroying the refrigerator.',
+      'Using a high-temperature heat gun: Excessive heat warps the plastic liner so the ice bucket will never seal properly again.'
+    ],
+    paaFaqs: [
+      {
+        question: 'How do you reset a Samsung refrigerator ice maker?',
+        answer: 'Remove the ice bucket and look on the right side of the ice maker for a small test button. Press and hold it for 3 to 5 seconds until the unit chimes. The tray will perform a full test rotation within 5 minutes.'
+      },
+      {
+        question: 'Why does my Samsung ice maker keep freezing into a solid block?',
+        answer: 'Warm ambient air leaks through the ice chute dispenser flap or the silicone gasket, causing moisture to condense and freeze onto the cooling coils. Installing the DA82-02683A Y-clip and resealing the housing permanently stops this problem.'
+      }
+    ],
+    relatedGuideIds: ['guide-fridge-leaking', 'guide-bosch-e15']
+  },
+  {
+    id: 'guide-lg-dishwasher-ae',
+    slug: 'lg-dishwasher-ae-error-code-leak-fix',
+    title: 'LG Dishwasher AE or E1 Error Code: How to Clear Base Pan & Seal Sump (No Plumber Needed)',
+    seoTitle: 'LG Dishwasher AE Error Code: Leak Sensor Fix (No Plumber) | ReportIQ',
+    seoDescription: 'LG dishwasher beeping with AE or E1 error code? Clear the flooded bottom flood pan, dry the float switch, and fix the sump seal in 20 minutes with our DIY guide.',
+    category: 'Dishwasher',
+    subcategory: 'Dishwasher Diagnostics',
+    readTime: '7 min read',
+    publishDate: 'Published Today',
+    author: {
+      name: 'David Vance',
+      role: 'Master Appliance Technician & Field Inspector',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+      verified: true
+    },
+    difficulty: 'Beginner',
+    estTime: '20 mins',
+    estDiyCost: '$16.50',
+    estProCost: '$240.00',
+    heroImage: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1200&auto=format&fit=crop&q=80',
+    personalIntro: 'LG dishwashers are equipped with a sensitive microswitch nestled inside the bottom galvanised drip pan. When as little as two tablespoons of water leak past the door gasket or sump motor, the dishwasher immediately halts the cycle, sounds an alarm, and displays "AE" or "E1" while continuously running the drain pump to prevent kitchen flooding.',
+    quickSummary: 'The AE/E1 code on LG dishwashers indicates the flood protection float switch has detected water in the bottom safety pan. Tilting the unit backward drains the pan to clear the alarm, and tightening the sump motor ring stops the leak permanently.',
+    safetyAlert: 'SAFETY: Cut power at the circuit breaker before opening the lower toe-kick panel. The drain pump and wash motor carry 120V alternating current.',
+    toolsNeeded: [
+      'Phillips screwdriver #2',
+      'Towels and a shallow baking pan',
+      'Flashlight or phone light',
+      'Small sponge'
+    ],
+    partsNeeded: [
+      {
+        name: 'OEM LG Dishwasher Sump Gasket & Base Seal (Part #4930ED4008A)',
+        partNumber: '4930ED4008A',
+        price: '$16.50',
+        rating: 4.8,
+        reviewsCount: 4200,
+        isPrime: true,
+        affiliateUrl: 'https://www.amazon.com/s?k=4930ED4008A+lg+dishwasher+sump+seal&tag=reportiq-20',
+        badge: 'OEM Direct Fit',
+        category: 'part',
+        description: 'Genuine factory molded silicone rubber gasket sealing the bottom sump bowl to the stainless steel tub.'
+      }
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        title: 'Cut Circuit Breaker Power & Remove Toe Kick',
+        instructions: [
+          'Switch off the dedicated dishwasher circuit breaker in your electrical panel.',
+          'Remove the two Phillips screws at the base of the machine holding the black metal toe-kick plate.',
+          'Set the plate aside to expose the bottom access compartment.'
+        ]
+      },
+      {
+        stepNumber: 2,
+        title: 'Sponge Out the Standing Water in Base Pan',
+        instructions: [
+          'Shine a flashlight into the shallow metal tray under the motor.',
+          'You will see a small white styrofoam float switch sitting in standing water.',
+          'Use a sponge or towel to soak up all water until the pan is bone dry.'
+        ],
+        proTip: 'As soon as the styrofoam float rests flat on the metal bottom, the AE code switch will disengage.'
+      },
+      {
+        stepNumber: 3,
+        title: 'Identify the Leak Source (Door Seal vs Sump Motor)',
+        instructions: [
+          'Inspect the front corners for dampness indicating a loose door rubber gasket.',
+          'Check the circular sump housing in the center. If water is dripping from the seal seam, tighten the mounting screws 1/2 turn clockwise or install the $16 replacement gasket.'
+        ]
+      },
+      {
+        stepNumber: 4,
+        title: 'Restore Power and Run a 15-Minute Rinse Cycle',
+        instructions: [
+          'Switch the breaker back on, leave the toe-kick off, and start a normal cycle.',
+          'Watch with a flashlight for 10 minutes to verify zero drops are falling into the pan.',
+          'Reattach the toe kick plate.'
+        ]
+      }
+    ],
+    commonMistakes: [
+      'Resetting power without drying the pan: The error code will instantly reappear because the float switch is physically floating in water.',
+      'Using dish soap (Dawn) in the dishwasher: Over-sudsing causes suds to spill over the tub lip into the base pan, triggering false AE leak alarms.'
+    ],
+    paaFaqs: [
+      {
+        question: 'What does AE mean on an LG dishwasher?',
+        answer: 'AE stands for Aqua Error (or Auto Error). It signifies that the internal flood sensor detected water accumulating in the base pan beneath the tub, locking the machine into continuous drain mode.'
+      },
+      {
+        question: 'How do I clear the AE code on my LG dishwasher?',
+        answer: 'Turn off the circuit breaker, remove the bottom toe-kick panel, and sponge out all standing water in the bottom drip pan until the float drops flat. Turn power back on to clear the code.'
+      }
+    ],
+    relatedGuideIds: ['guide-bosch-e15', 'guide-whirlpool-f2e1']
+  },
+  {
+    id: 'guide-water-heater-pilot-light',
+    slug: 'water-heater-pilot-light-wont-stay-lit-fix',
+    title: 'Water Heater Pilot Light Won\'t Stay Lit: Thermocouple Testing & Cleaning Guide',
+    seoTitle: 'Water Heater Pilot Light Won\'t Stay Lit: Thermocouple Fix | ReportIQ',
+    seoDescription: 'Gas water heater pilot light goes out when you release the knob? How to test, clean soot off, or replace the thermocouple for $14 without an expensive plumber.',
+    category: 'Water Heater',
+    subcategory: 'Gas Appliance Diagnostics',
+    readTime: '9 min read',
+    publishDate: 'Published Today',
+    author: {
+      name: 'David Vance',
+      role: 'Master Appliance Technician & Field Inspector',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+      verified: true
+    },
+    difficulty: 'Intermediate',
+    estTime: '30 mins',
+    estDiyCost: '$13.95',
+    estProCost: '$275.00',
+    heroImage: 'https://images.unsplash.com/photo-1585338107529-13afc5f02586?w=1200&auto=format&fit=crop&q=80',
+    personalIntro: 'Nothing ruins a freezing morning faster than stepping into an ice-cold shower because your water heater\'s pilot flame died overnight. When you light the pilot, the blue flame burns fine while holding down the knob, but the second you release your thumb, the flame dies instantly. Plumbers charge $250+ for this service call, but 9 times out of 10, the thermocouple is simply coated with carbon soot or has reached the end of its 8-year lifespan.',
+    quickSummary: 'A thermocouple is a thermoelectric sensor that generates 20 to 30 millivolts of electricity from the heat of the pilot flame to hold the gas valve open. If the copper tip is coated in soot or worn out, the safety magnet drops and shuts off gas flow.',
+    safetyAlert: 'DANGER: If you smell natural gas or sulfur (rotten eggs), DO NOT light any match or operate switches. Leave the house immediately and call your gas utility.',
+    toolsNeeded: [
+      '7/16" and 3/8" Open-end wrenches',
+      'Piece of fine steel wool or fine emery cloth (400-grit)',
+      'Digital Multimeter (DC Millivolts mode)',
+      'Flashlight'
+    ],
+    partsNeeded: [
+      {
+        name: 'Universal 24-Inch Snap-Fit Gas Water Heater Thermocouple Kit',
+        partNumber: 'TC-24-UNIVERSAL',
+        price: '$13.95',
+        rating: 4.8,
+        reviewsCount: 16800,
+        isPrime: true,
+        affiliateUrl: 'https://www.amazon.com/s?k=universal+water+heater+thermocouple+24+inch&tag=reportiq-20',
+        badge: 'Universal Fit',
+        category: 'part',
+        description: 'Heavy-duty copper thermocouple compatible with Rheem, AO Smith, Bradford White, Whirlpool, and Kenmore gas water heaters.'
+      }
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        title: 'Turn Gas Valve to OFF and Wait 10 Minutes',
+        instructions: [
+          'Rotate the main gas thermostat control knob to the "OFF" position.',
+          'Wait a full 10 minutes to allow any residual gas in the combustion chamber to dissipate safely.',
+          'Remove the outer metal access door and inner sight glass cover.'
+        ]
+      },
+      {
+        stepNumber: 2,
+        title: 'Clean the Copper Thermocouple Tip with Steel Wool',
+        instructions: [
+          'Look closely at the copper probe positioned directly in the pilot flame path.',
+          'Often, a thick black layer of carbon soot insulates the probe so it cannot register heat.',
+          'Gently polish the tip of the thermocouple with fine steel wool until bright bare copper is visible.',
+          'Try relighting the pilot: hold the knob down for 60 seconds. If it stays lit, your problem is solved for $0!'
+        ],
+        proTip: 'Never use coarse sandpaper as it scratches off the protective alloy plating.'
+      },
+      {
+        stepNumber: 3,
+        title: 'Multimeter Millivolt Test (If Still Failing)',
+        instructions: [
+          'Unscrew the copper thermocouple lead nut from the bottom of the gas control valve using a 7/16" wrench.',
+          'Connect the positive multimeter lead to the copper probe tip and negative lead to the copper tube casing.',
+          'Set your meter to DC Millivolts (mV) and light the pilot with a lighter.',
+          'A healthy thermocouple will generate 20 to 30 mV within 30 seconds. If it produces less than 12 mV, the internal junction is degraded and must be replaced.'
+        ]
+      },
+      {
+        stepNumber: 4,
+        title: 'Install the New $14 Universal Thermocouple',
+        instructions: [
+          'Pull the burner assembly door forward slightly to access the bracket.',
+          'Pop the old thermocouple out of the push-in clip.',
+          'Snap the new thermocouple into place so the top 1/3 of the tip is engulfed by the pilot flame.',
+          'Thread the copper nut into the gas valve finger-tight, then snug it 1/4 turn with your 7/16" wrench (do not over-tighten).',
+          'Turn knob to PILOT, hold down, press piezo spark igniter, hold 45 seconds, and release. The flame will now stay locked on!'
+        ]
+      }
+    ],
+    commonMistakes: [
+      'Over-tightening the thermocouple nut into the gas valve: Over-torquing crushes the internal ceramic insulator, causing a short circuit that kills the voltage.',
+      'Releasing the pilot knob too quickly: The thermocouple requires 30 to 45 seconds of flame exposure to build sufficient millivolts to energize the internal gas valve magnet.'
+    ],
+    paaFaqs: [
+      {
+        question: 'Why does my water heater pilot light turn off as soon as I let go of the knob?',
+        answer: 'The thermocouple has failed or is covered in soot. When you release the knob, the gas valve safety magnet relies entirely on the 25 millivolts generated by the thermocouple to hold the valve open. If voltage is low, the magnet drops and shuts off the gas.'
+      },
+      {
+        question: 'Are all water heater thermocouples the same?',
+        answer: 'Most standard atmospheric gas water heaters use a universal 24-inch or 30-inch thermocouple with standard thread fittings that fit Rheem, Bradford White, and AO Smith models.'
+      }
+    ],
+    relatedGuideIds: ['guide-water-heater-valve', 'guide-furnace-filter-hvac']
   }
 ];
