@@ -49,12 +49,14 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 border-b border-stone-100">
         <div className="flex items-center justify-between gap-4">
           {/* Logo & Newspaper Title */}
-          <button
-            onClick={() => {
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
               onNavigate('blog');
               onSelectCategory('All');
             }}
-            className="text-left group"
+            className="text-left group no-underline text-inherit block cursor-pointer"
           >
             <div className="flex items-center gap-2">
               <span className="text-2xl sm:text-4xl font-extrabold tracking-tight text-stone-900 font-editorial group-hover:text-blue-700 transition-colors">
@@ -67,7 +69,7 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
             <p className="text-xs text-stone-500 mt-0.5 tracking-wide">
               Independent DIY Repair Reports, Appliance Error Codes & Practical Tool Reviews
             </p>
-          </button>
+          </a>
 
           {/* Quick Header Actions */}
           <div className="flex items-center gap-3">
@@ -95,9 +97,13 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
             </div>
 
             {/* Error Code Tool CTA Button */}
-            <button
-              onClick={() => onNavigate('lookup')}
-              className={`hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs ${
+            <a
+              href="/lookup"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('lookup');
+              }}
+              className={`hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs no-underline ${
                 activeView === 'lookup'
                   ? 'bg-blue-600 text-white'
                   : 'bg-stone-900 text-stone-100 hover:bg-stone-800'
@@ -105,7 +111,7 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
             >
               <Wrench className="w-3.5 h-3.5 text-amber-400" />
               <span>Error Code Lookup Tool</span>
-            </button>
+            </a>
 
             {/* Mobile Menu Button */}
             <div className="flex items-center gap-1 md:hidden">
@@ -151,38 +157,49 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
           <nav className="flex items-center gap-1 shrink-0">
             {categories.map(cat => {
               const isSelected = activeView === 'blog' && activeCategory === cat.id;
+              const catHref = cat.id === 'All' ? '/' : `/category/${cat.id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
               return (
-                <button
+                <a
                   key={cat.id}
-                  onClick={() => {
+                  href={catHref}
+                  onClick={(e) => {
+                    e.preventDefault();
                     onNavigate('blog');
                     onSelectCategory(cat.id);
                   }}
-                  className={`px-3 py-1.5 rounded-md font-medium whitespace-nowrap transition-colors ${
+                  className={`px-3 py-1.5 rounded-md font-medium whitespace-nowrap transition-colors no-underline block ${
                     isSelected
                       ? 'bg-stone-900 text-white font-bold'
                       : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
                   }`}
                 >
                   {cat.label}
-                </button>
+                </a>
               );
             })}
           </nav>
 
           <div className="hidden lg:flex items-center gap-2 shrink-0 pl-4 border-l border-stone-200 text-xs">
-            <button
-              onClick={() => onNavigate('legal')}
-              className="text-stone-600 hover:text-stone-900 font-semibold px-2.5 py-1.5 hover:bg-stone-100 rounded-md transition-colors"
+            <a
+              href="/about"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('legal');
+              }}
+              className="text-stone-600 hover:text-stone-900 font-semibold px-2.5 py-1.5 hover:bg-stone-100 rounded-md transition-colors no-underline block"
             >
               About the Master Technicians
-            </button>
-            <button
-              onClick={() => onNavigate('lookup')}
-              className="text-blue-700 bg-blue-50 hover:bg-blue-100 font-bold px-3 py-1.5 rounded-md transition-colors"
+            </a>
+            <a
+              href="/lookup"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('lookup');
+              }}
+              className="text-blue-700 bg-blue-50 hover:bg-blue-100 font-bold px-3 py-1.5 rounded-md transition-colors no-underline block"
             >
               Diagnostic Tool
-            </button>
+            </a>
           </div>
         </div>
       </div>
