@@ -1,3 +1,8 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import React, { useState, useEffect } from 'react';
 import { BlogHeader } from './components/BlogHeader';
 import { BlogHome } from './components/BlogHome';
@@ -8,11 +13,27 @@ import { LegalPages } from './components/LegalPages';
 import { Footer } from './components/Footer';
 import { AdSenseChecklistModal } from './components/AdSenseChecklistModal';
 import { ContractorLeadModal } from './components/ContractorLeadModal';
+import { LeadsModal } from './components/LeadsModal';
 import { REPAIR_GUIDES } from './data/guides';
 import { ArticleGuide } from './types';
 
 export default function App() {
-  const [guides, setGuides] = useState<ArticleGuide[]>(REPAIR_GUIDES);
+  const [guides, setGuides] = useState<ArticleGuide[]>(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem('reportiq_custom_guides');
+        if (stored) {
+          const parsed: ArticleGuide[] = JSON.parse(stored);
+          // Merge custom guides ensuring no duplicates with default REPAIR_GUIDES
+          const customUnique = parsed.filter(cg => !REPAIR_GUIDES.some(rg => rg.id === cg.id || rg.slug === cg.slug));
+          return [...customUnique, ...REPAIR_GUIDES];
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return REPAIR_GUIDES;
+  });
   const [selectedGuide, setSelectedGuide] = useState<ArticleGuide | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [activeView, setActiveView] = useState<'blog' | 'lookup' | 'sprint' | 'legal'>('blog');
@@ -48,17 +69,127 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Sync view based on URL pathname (e.g. /guide/:slug, /lookup, /about, /privacy, etc.) and popstate (Back/Forward)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const syncRouteFromUrl = () => {
+      const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
+      
+      if (path.startsWith('/guide/')) {
+        const slug = path.replace('/guide/', '');
+        const found = guides.find(g => g.slug.toLowerCase() === slug) || REPAIR_GUIDES.find(g => g.slug.toLowerCase() === slug);
+        if (found) {
+          setSelectedGuide(found);
+          setActiveView('blog');
+          document.title = `${found.title} | ReportIQ`;
+          return;
+        }
+      } else if (path === '/lookup') {
+        setActiveView('lookup');
+        setSelectedGuide(null);
+        document.title = 'Appliance Error Code Lookup Tool | ReportIQ';
+        return;
+      } else if (path === '/about' || path === '/privacy' || path === '/affiliate' || path === '/terms' || path === '/contact') {
+        const tab = path.replace('/', '') as 'about' | 'privacy' | 'affiliate' | 'terms' | 'contact';
+        setLegalInitialTab(tab);
+        setActiveView('legal');
+        setSelectedGuide(null);
+        return;
+      } else if (path.startsWith('/category/')) {
+        const catSlug = path.replace('/category/', '');
+        if (catSlug.includes('dish')) setActiveCategory('Dishwasher');
+        else if (catSlug.includes('wash')) setActiveCategory('Washing Machine');
+        else if (catSlug.includes('dry')) setActiveCategory('Dryer');
+        else if (catSlug.includes('hvac')) setActiveCategory('HVAC & Heating');
+        else if (catSlug.includes('plumb')) setActiveCategory('Plumbing');
+        else if (catSlug.includes('refrig') || catSlug.includes('fridge')) setActiveCategory('Refrigerator');
+        else if (catSlug.includes('disp')) setActiveCategory('Garbage Disposal');
+        setActiveView('blog');
+        setSelectedGuide(null);
+        return;
+      } else if (path === '/') {
+        setSelectedGuide(null);
+        setActiveView('blog');
+        document.title = 'ReportIQ - Independent DIY Repair Reports & Diagnostics';
+      }
+    };
+
+    window.addEventListener('popstate', syncRouteFromUrl);
+    syncRouteFromUrl();
+
+    return () => window.removeEventListener('popstate', syncRouteFromUrl);
+  }, [guides]);
+
   // Modals
   const [isAdSenseModalOpen, setIsAdSenseModalOpen] = useState<boolean>(false);
   const [isLeadModalOpen, setIsLeadModalOpen] = useState<boolean>(false);
+  const [isLeadsModalOpen, setIsLeadsModalOpen] = useState<boolean>(false);
   const [leadServiceName, setLeadServiceName] = useState<string>('Appliance Repair');
   const [legalInitialTab, setLegalInitialTab] = useState<'about' | 'privacy' | 'affiliate' | 'contact' | 'terms'>('about');
 
-  const handlePublishNewArticle = (newGuide: ArticleGuide) => {
-    setGuides(prev => [newGuide, ...prev]);
-    setSelectedGuide(newGuide);
+  // Navigation handlers that cleanly update the browser URL
+  const handleSelectGuide = (guide: ArticleGuide) => {
+    setSelectedGuide(guide);
     setActiveView('blog');
+    window.history.pushState({ type: 'guide', slug: guide.slug }, '', `/guide/${guide.slug}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.title = `${guide.title} | ReportIQ`;
+  };
+
+  const handleSelectGuideBySlug = (slug: string) => {
+    const found = guides.find(g => g.slug.toLowerCase() === slug.toLowerCase()) || REPAIR_GUIDES.find(g => g.slug.toLowerCase() === slug.toLowerCase());
+    if (found) {
+      handleSelectGuide(found);
+    }
+  };
+
+  const handleBackToHome = () => {
+    setSelectedGuide(null);
+    setActiveView('blog');
+    window.history.pushState({ type: 'home' }, '', '/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.title = 'ReportIQ - Independent DIY Repair Reports & Diagnostics';
+  };
+
+  const handleSelectCategory = (cat: string) => {
+    setActiveCategory(cat);
+    setSelectedGuide(null);
+    setActiveView('blog');
+    const catSlug = cat.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    window.history.pushState({ type: 'category', cat }, '', cat === 'All' ? '/' : `/category/${catSlug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateView = (view: 'blog' | 'lookup' | 'sprint' | 'legal') => {
+    setActiveView(view);
+    if (view === 'blog') {
+      setSelectedGuide(null);
+      window.history.pushState({ type: 'home' }, '', '/');
+      document.title = 'ReportIQ - Independent DIY Repair Reports & Diagnostics';
+    } else if (view === 'lookup') {
+      setSelectedGuide(null);
+      window.history.pushState({ type: 'lookup' }, '', '/lookup');
+      document.title = 'Appliance Error Code Lookup Tool | ReportIQ';
+    } else if (view === 'sprint') {
+      window.history.pushState({ type: 'sprint' }, '', '/?admin=true');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Handle publishing a new article from the 60-Day sprint editor directly into the live blog!
+  const handlePublishNewArticle = (newGuide: ArticleGuide) => {
+    setGuides(prev => {
+      const updated = [newGuide, ...prev];
+      try {
+        const customOnly = updated.filter(g => !REPAIR_GUIDES.some(rg => rg.id === g.id));
+        localStorage.setItem('reportiq_custom_guides', JSON.stringify(customOnly));
+      } catch (err) {
+        console.error('Failed to save guide to localStorage', err);
+      }
+      return updated;
+    });
+    handleSelectGuide(newGuide);
   };
 
   const handleOpenLeadModal = (service: string) => {
@@ -69,18 +200,12 @@ export default function App() {
   const handleOpenLegalTab = (tab: 'about' | 'privacy' | 'affiliate' | 'contact' | 'terms') => {
     setLegalInitialTab(tab);
     setActiveView('legal');
+    setSelectedGuide(null);
+    window.history.pushState({ type: 'legal', tab }, '', `/${tab}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSelectGuideBySlug = (slug: string) => {
-    const found = guides.find(g => g.slug === slug);
-    if (found) {
-      setSelectedGuide(found);
-      setActiveView('blog');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
+  // Filtered guides by search
   const displayedGuides = guides.filter(guide => {
     if (!searchQuery.trim()) return true;
     const query = searchQuery.toLowerCase();
@@ -123,6 +248,12 @@ export default function App() {
               ✓ AdSense Checklist
             </button>
             <button
+              onClick={() => setIsLeadsModalOpen(true)}
+              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-stone-900 hover:bg-stone-100 transition-all shadow-xs"
+            >
+              📋 Customer Quotes & Leads
+            </button>
+            <button
               onClick={() => {
                 localStorage.removeItem('reportiq_admin');
                 setIsAdmin(false);
@@ -140,18 +271,9 @@ export default function App() {
       {/* Editorial Blog Header */}
       <BlogHeader
         activeCategory={activeCategory}
-        onSelectCategory={(cat) => {
-          setActiveCategory(cat);
-          setSelectedGuide(null);
-          setActiveView('blog');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onSelectCategory={handleSelectCategory}
         activeView={activeView}
-        onNavigate={(view) => {
-          setActiveView(view);
-          if (view === 'blog') setSelectedGuide(null);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }}
+        onNavigate={handleNavigateView}
         onOpenAdSenseModal={() => setIsAdSenseModalOpen(true)}
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -160,44 +282,36 @@ export default function App() {
 
       {/* Main Blog Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* VIEW 1: BLOG HOME OR ARTICLE VIEW */}
         {activeView === 'blog' && (
           <div>
             {selectedGuide ? (
               <ArticleView
                 guide={selectedGuide}
-                onBack={() => {
-                  setSelectedGuide(null);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                onSelectRelated={(related) => {
-                  setSelectedGuide(related);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                allGuides={guides}
+                onBack={handleBackToHome}
+                onSelectRelated={handleSelectGuide}
                 onOpenLeadModal={handleOpenLeadModal}
               />
             ) : (
               <BlogHome
                 guides={displayedGuides}
-                onSelectGuide={(guide) => {
-                  setSelectedGuide(guide);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                onOpenLookup={() => {
-                  setActiveView('lookup');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
+                onSelectGuide={handleSelectGuide}
+                onOpenLookup={() => handleNavigateView('lookup')}
                 onNavigateToSprint={() => {
                   setActiveView('sprint');
+                  window.history.pushState({ type: 'sprint' }, '', '/?admin=true');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
                 onOpenAdSenseModal={() => setIsAdSenseModalOpen(true)}
                 selectedCategory={activeCategory}
-                onSelectCategory={setActiveCategory}
+                onSelectCategory={handleSelectCategory}
               />
             )}
           </div>
         )}
 
+        {/* VIEW 2: INTERACTIVE APPLIANCE ERROR CODE LOOKUP TOOL */}
         {activeView === 'lookup' && (
           <div className="space-y-6">
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-xs text-center max-w-3xl mx-auto space-y-2">
@@ -219,6 +333,7 @@ export default function App() {
           </div>
         )}
 
+        {/* VIEW 3: 60-DAY SPRINT & DAILY ARTICLE GENERATOR */}
         {activeView === 'sprint' && (
           <SixtyDaySprint
             publishedCount={guides.length}
@@ -227,6 +342,7 @@ export default function App() {
           />
         )}
 
+        {/* VIEW 4: LEGAL & TRUST PAGES (AdSense Approval Shield) */}
         {activeView === 'legal' && (
           <LegalPages initialTab={legalInitialTab} />
         )}
@@ -237,22 +353,31 @@ export default function App() {
         onNavigate={(view) => {
           if (view === 'lookup') setActiveView('lookup');
           else if (view === 'guides') { setActiveView('blog'); setSelectedGuide(null); }
+          else if (view === 'keywords' || view === 'studio') setActiveView('sprint');
           else if (view === 'legal') setActiveView('legal');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         onOpenLegalTab={handleOpenLegalTab}
       />
 
+      {/* AdSense Checklist Modal */}
       <AdSenseChecklistModal
         isOpen={isAdSenseModalOpen}
         onClose={() => setIsAdSenseModalOpen(false)}
         onOpenLegalTab={handleOpenLegalTab}
       />
 
+      {/* Contractor Quote Lead Modal */}
       <ContractorLeadModal
         isOpen={isLeadModalOpen}
         onClose={() => setIsLeadModalOpen(false)}
         serviceName={leadServiceName}
+      />
+
+      {/* Owner Customer Quotes & Leads Modal */}
+      <LeadsModal
+        isOpen={isLeadsModalOpen}
+        onClose={() => setIsLeadsModalOpen(false)}
       />
     </div>
   );
