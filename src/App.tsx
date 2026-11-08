@@ -728,8 +728,9 @@ export default function App() {
       const path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
       
       if (path.startsWith('/guide/')) {
-        const slug = path.replace('/guide/', '');
-        const found = guides.find(g => g.slug.toLowerCase() === slug) || REPAIR_GUIDES.find(g => g.slug.toLowerCase() === slug);
+        const slug = path.replace('/guide/', '').trim();
+        const found = guides.find(g => g.slug.toLowerCase() === slug || slug.includes(g.slug.toLowerCase()) || g.slug.toLowerCase().includes(slug)) || 
+                      REPAIR_GUIDES.find(g => g.slug.toLowerCase() === slug || slug.includes(g.slug.toLowerCase()) || g.slug.toLowerCase().includes(slug));
         if (found) {
           setSelectedGuide(found);
           setActiveView('blog');
