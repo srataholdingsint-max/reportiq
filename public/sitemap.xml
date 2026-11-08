@@ -1,147 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Core Website & Diagnostic Tools -->
+  <!-- Core Website & Diagnostic Tools (2 URLs) -->
   <url>
     <loc>https://www.reportiq.xyz/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/lookup</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
-  <!-- In-Depth DIY Repair Guides -->
+  <!-- 10 In-Depth High-RPM DIY Repair Pillar Guides (10 URLs) -->
   <url>
     <loc>https://www.reportiq.xyz/guide/bosch-dishwasher-e15-error-code-fix</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.reportiq.xyz/guide/whirlpool-washer-f2e1-error-code</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.reportiq.xyz/guide/whirlpool-washer-f2e1-error-code-fix</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/guide/how-to-replace-furnace-filter-20x25x1</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.reportiq.xyz/guide/lg-washer-le-error-code-motor-sensor</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.reportiq.xyz/guide/unclog-shower-drain-without-chemicals</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.reportiq.xyz/guide/best-way-to-unclog-shower-drain-without-chemicals</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.reportiq.xyz/guide/why-is-my-refrigerator-leaking-water</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.reportiq.xyz/guide/garbage-disposal-humming-not-spinning-fix</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.reportiq.xyz/guide/garbage-disposal-humming-reset-fix</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.reportiq.xyz/guide/refrigerator-leaking-water-crisper-drawers-fix</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://www.reportiq.xyz/guide/winterizing-outdoor-spigots-pipes</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.reportiq.xyz/guide/samsung-washer-4c-4e-water-supply-error-fix</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://www.reportiq.xyz/guide/water-heater-pressure-relief-valve-leaking</loc>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/guide/ge-washer-not-spinning-lid-lock-fix</loc>
-    <lastmod>2026-11-08</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/guide/whirlpool-dryer-not-heating-thermal-fuse-fix</loc>
-    <lastmod>2026-11-08</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Legal, E-E-A-T & Google AdSense Trust Pages -->
+  <!-- Legal, E-E-A-T & Google AdSense Trust Pages (5 URLs) -->
   <url>
     <loc>https://www.reportiq.xyz/about</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/privacy</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/affiliate</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/terms</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/contact</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
-  <!-- Category Hubs -->
+  <!-- Category Hubs (6 URLs) -->
   <url>
     <loc>https://www.reportiq.xyz/category/dishwashers</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/category/washers-dryers</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/category/hvac-filters</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/category/plumbing</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/category/refrigerators</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.reportiq.xyz/category/disposals</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
