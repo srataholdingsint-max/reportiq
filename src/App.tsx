@@ -1314,6 +1314,18 @@ export default function App() {
         setActiveView('blog');
         document.title = 'ReportIQ - Independent DIY Repair Reports & Diagnostics';
       }
+
+      // Track pageview in Google Analytics 4 (GA4)
+      try {
+        if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+          (window as any).gtag('config', 'G-N29TBE7FGC', {
+            page_path: window.location.pathname,
+            page_title: document.title
+          });
+        }
+      } catch {
+        // ignore analytics error
+      }
     };
 
     window.addEventListener('popstate', syncRouteFromUrl);
