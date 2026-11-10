@@ -1325,5 +1325,116 @@ export const REPAIR_GUIDES: ArticleGuide[] = [
       }
     ],
     relatedGuideIds: ['guide-water-heater-valve', 'guide-furnace-filter-hvac']
+  },
+  {
+    id: 'guide-samsung-washer-4c',
+    slug: 'samsung-washer-4c-error-code-water-supply-fix',
+    title: 'How to Fix Samsung Washer 4C (4E) Error Code: 15-Minute DIY Water Supply Fix',
+    seoTitle: 'Samsung Washer 4C Error Code Fix: Clear Clogged Mesh Filters & Water Valve',
+    seoDescription: 'Fix Samsung washer 4C (and 4E) water supply error codes without a plumber. Step-by-step DIY guide to cleaning clogged inlet screens and testing water valves for $0 to $25.',
+    category: 'Washing Machine',
+    subcategory: 'Water Inlet & Valves',
+    heroImage: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=1200&q=80',
+    readTime: '6 min read',
+    publishDate: 'November 10, 2026',
+    author: {
+      name: 'Marcus Vance',
+      role: 'Master Appliance Technician (20+ yrs)',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      verified: true
+    },
+    difficulty: 'Beginner',
+    estTime: '15 mins',
+    estDiyCost: '$0 – $24.95',
+    estProCost: '$210 – $285',
+    personalIntro: 'You load a heavy pile of dirty laundry into your Samsung front-load or top-load washer, press Start, and step away. Five minutes later, the machine halts with frantic beeping and displays code 4C (or 4E on older models). The drum is bone dry. Calling a technician for this costs upwards of $220, but in over 85% of households, the culprit is simply hard water silt clogging the tiny removable mesh filters behind the water supply hoses.',
+    quickSummary: 'Samsung error 4C (4E) indicates an intake water supply problem where water fails to reach operating pressure within 6 minutes. Cleaning the plastic filter screens inside the rear cold and hot inlet ports takes 10 minutes and costs $0.',
+    safetyAlert: 'Always disconnect electrical power and turn off both hot and cold wall faucets before disconnecting water lines to prevent high-pressure laundry room flooding.',
+    toolsNeeded: [
+      'Channel lock pliers or slip-joint pliers',
+      'Small bucket or shallow pan (for residual hose water)',
+      'Old toothbrush or brass wire brush',
+      'White distilled vinegar (for dissolving mineral deposits)'
+    ],
+    partsNeeded: [
+      {
+        name: 'OEM Samsung Triple Water Inlet Valve Assembly (DC62-00024M)',
+        partNumber: 'DC62-00024M',
+        price: '$24.95',
+        originalPrice: '$42.00',
+        rating: 4.8,
+        reviewsCount: 3120,
+        isPrime: true,
+        affiliateUrl: 'https://www.amazon.com/dp/B07R4VJ71B?tag=reportiq-20',
+        badge: 'Top Rated OEM Replacement',
+        category: 'part',
+        description: 'Original equipment dual solenoid cold water valve for Samsung front-load and top-load washers. Restores full pressure water intake.'
+      },
+      {
+        name: 'Stainless Steel Braided 6-Ft Washing Machine Hoses (2-Pack)',
+        partNumber: 'WH41X10207',
+        price: '$18.99',
+        rating: 4.9,
+        reviewsCount: 8450,
+        isPrime: true,
+        affiliateUrl: 'https://www.amazon.com/dp/B004XLD844?tag=reportiq-20',
+        category: 'tool',
+        description: 'Burst-proof high-pressure supply hoses featuring built-in micro-mesh debris washers.'
+      }
+    ],
+    steps: [
+      {
+        stepNumber: 1,
+        title: 'Shut Off Hot & Cold Supply Valves and Disconnect Power',
+        instructions: [
+          'Unplug the washing machine power cord from the wall outlet for safety.',
+          'Turn both the hot and cold wall faucets clockwise until tightly closed.',
+          'Place a shallow bucket or towel underneath the water connections behind the washer.'
+        ]
+      },
+      {
+        stepNumber: 2,
+        title: 'Unscrew Hoses & Remove Debris Mesh Filters',
+        instructions: [
+          'Using channel lock pliers, gently loosen the plastic or brass hose couplings at the back of the washer.',
+          'Inside the threaded inlet ports on the machine, you will see two small plastic mesh screen filters (one blue for cold, one orange/red for hot).',
+          'Use needle-nose pliers to gently pull the mesh screens straight out of the plastic inlet valve housings.'
+        ],
+        proTip: 'Never run the washer without these mesh screens. Fine grit from municipal plumbing will jam the internal valve solenoids wide open, causing severe room flooding.'
+      },
+      {
+        stepNumber: 3,
+        title: 'Soak in Vinegar and Scrub Silt Buildup',
+        instructions: [
+          'Submerge the mesh screens in warm distilled white vinegar for 10 minutes to dissolve hard water calcium and lime scale.',
+          'Scrub both sides vigorously with an old toothbrush under a running tap until the fine wire mesh is 100% translucent.',
+          'Push the cleaned screens firmly back into the washer inlet ports until flush.'
+        ]
+      },
+      {
+        stepNumber: 4,
+        title: 'Inspect Supply Valves and Test Cycle',
+        instructions: [
+          'Before reconnecting hoses, point them into your bucket and crack the wall valves open briefly to verify strong water pressure from your home plumbing.',
+          'Reattach hoses tightly by hand, then add a 1/4 turn with pliers (do not cross-thread plastic fittings).',
+          'Turn water faucets back on fully, plug the washer in, and select a Quick Wash cycle. Water should cascade into the tub immediately, clearing the 4C error.'
+        ]
+      }
+    ],
+    commonMistakes: [
+      'Puncturing the fine plastic mesh filter with pliers: If torn, sand and mineral sediment bypass the screen and permanently ruin the magnetic solenoids inside the valve.',
+      'Leaving the wall supply tap half open: Samsung control boards measure fill time with precision. If water pressure drops below 20 PSI, 4C will trigger automatically even if water is entering.'
+    ],
+    paaFaqs: [
+      {
+        question: 'What is the difference between Samsung 4C and 4E error codes?',
+        answer: 'They mean the exact same thing: insufficient water supply. Older Samsung washer models with two-digit displays use "4E", while newer models show "4C". Both indicate water is not reaching the minimum level within 6 minutes of cycle start.'
+      },
+      {
+        question: 'Why does my Samsung washer throw 4C even after cleaning the filters?',
+        answer: 'If the mesh screens are clean and home water pressure is normal, one of the electric solenoids inside the water inlet valve assembly has burned out. Replacing the $25 OEM valve assembly behind the rear panel solves the issue completely.'
+      }
+    ],
+    relatedGuideIds: ['guide-whirlpool-washer-f2e1', 'guide-ge-washer-lid-lock', 'guide-bosch-e15']
   }
 ];
