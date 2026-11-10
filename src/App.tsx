@@ -1291,6 +1291,12 @@ export default function App() {
         setSelectedGuide(null);
         document.title = 'Appliance Repair vs Replace Calculator (50% Rule) | ReportIQ';
         return;
+      } else if (path === '/admin' || path === '/editor' || path === '/sprint' || path === '/publish' || path === '/write') {
+        setIsAdmin(true);
+        setActiveView('sprint');
+        setSelectedGuide(null);
+        document.title = 'Author Studio & Article Publisher | ReportIQ';
+        return;
       } else if (path === '/about' || path === '/privacy' || path === '/affiliate' || path === '/terms' || path === '/contact') {
         const tab = path.replace('/', '') as 'about' | 'privacy' | 'affiliate' | 'terms' | 'contact';
         setLegalInitialTab(tab);
@@ -1389,7 +1395,8 @@ export default function App() {
       window.history.pushState({ type: 'calculator' }, '', '/calculator');
       document.title = 'Appliance Repair vs Replace Calculator (50% Rule) | ReportIQ';
     } else if (view === 'sprint') {
-      window.history.pushState({ type: 'sprint' }, '', '/?admin=true');
+      window.history.pushState({ type: 'sprint' }, '', '/editor');
+      document.title = 'Author Studio & Article Publisher | ReportIQ';
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
