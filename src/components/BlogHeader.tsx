@@ -6,7 +6,8 @@ import {
   X, 
   CheckCircle2, 
   Zap,
-  Calculator
+  Calculator,
+  Sparkles
 } from 'lucide-react';
 
 interface BlogHeaderProps {
@@ -129,6 +130,24 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
             >
               <Calculator className="w-3.5 h-3.5 text-blue-600" />
               <span>Repair vs Replace</span>
+            </a>
+
+            {/* Author Studio & Blog Publisher Button */}
+            <a
+              href="/editor"
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate('sprint');
+              }}
+              className={`hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs no-underline ${
+                activeView === 'sprint'
+                  ? 'bg-emerald-600 text-white font-black'
+                  : 'bg-emerald-50 text-emerald-900 border border-emerald-300 hover:bg-emerald-100'
+              }`}
+              title="Write and upload new articles directly to the website"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+              <span>+ Write Article</span>
             </a>
 
             {/* Mobile Menu Button */}
@@ -259,6 +278,19 @@ export const BlogHeader: React.FC<BlogHeaderProps> = ({
           </div>
 
           <div className="pt-2 border-t border-stone-200 space-y-2">
+            <button
+              onClick={() => {
+                onNavigate('sprint');
+                setMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-between px-3 py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold"
+            >
+              <span className="flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>+ Write & Publish New Article</span>
+              </span>
+              <span>Open Studio →</span>
+            </button>
             <button
               onClick={() => {
                 onNavigate('lookup');
